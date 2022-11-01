@@ -29,29 +29,25 @@
                   >{{ user.checkedDate }}
                 </span></v-list-item-title
               >
-              <!-- <v-list-item-subtitle>{{
-                user.introduction
-              }}</v-list-item-subtitle> -->
+              <v-list-item-subtitle>{{ user.patientId }}</v-list-item-subtitle>
             </v-list-item-content>
 
-            <!-- TODO v-ifで発行済みであれば、showCheckupResult。出なければボタンを出す。 -->
-            <template v-if="user.issued">
-              <v-list-item-action>
-                <v-btn
-                  text
-                  color="secondary"
-                  @click="showCheckupResult(user.patientId)"
-                  >結果</v-btn
-                >
-              </v-list-item-action>
-            </template>
-            <template v-else>
+            <v-list-item-action>
+              <v-btn
+                text
+                color="secondary"
+                @click="showCheckupResult(user.patientId)"
+                >結果</v-btn
+              >
+            </v-list-item-action>
+            <template v-if="!user.issued">
               <v-list-item-action>
                 <v-btn text color="accent" @click="sendQRCodeforIssueVC(user)"
                   >発行</v-btn
                 >
               </v-list-item-action>
             </template>
+            <template v-else>発行済み</template>
           </v-list-item>
           <v-divider :key="`divider-${i}`"></v-divider>
         </template>
