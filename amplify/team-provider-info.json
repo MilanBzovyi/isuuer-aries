@@ -1,23 +1,23 @@
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-healthcheckupissuer-dev-145946-authRole",
-            "UnauthRoleArn": "arn:aws:iam::991005209332:role/amplify-healthcheckupissuer-dev-145946-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::991005209332:role/amplify-healthcheckupissuer-dev-145946-authRole",
-            "Region": "ap-northeast-1",
-            "DeploymentBucketName": "amplify-healthcheckupissuer-dev-145946-deployment",
-            "UnauthRoleName": "amplify-healthcheckupissuer-dev-145946-unauthRole",
-            "StackName": "amplify-healthcheckupissuer-dev-145946",
-            "StackId": "arn:aws:cloudformation:ap-northeast-1:991005209332:stack/amplify-healthcheckupissuer-dev-145946/8d215330-5f2a-11ed-8853-0eb3a51d977b",
-            "AmplifyAppId": "d5s6mit30xrg6"
-        },
-        "categories": {
-            "hosting": {
-                "amplifyhosting": {
-                    "appId": "d5s6mit30xrg6",
-                    "type": "cicd"
-                }
-            }
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-healthcheckupissuer-dev-145946-authRole",
+      "UnauthRoleArn": "arn:aws:iam::991005209332:role/amplify-healthcheckupissuer-dev-145946-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::991005209332:role/amplify-healthcheckupissuer-dev-145946-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-healthcheckupissuer-dev-145946-deployment",
+      "UnauthRoleName": "amplify-healthcheckupissuer-dev-145946-unauthRole",
+      "StackName": "amplify-healthcheckupissuer-dev-145946",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:991005209332:stack/amplify-healthcheckupissuer-dev-145946/8d215330-5f2a-11ed-8853-0eb3a51d977b",
+      "AmplifyAppId": "d5s6mit30xrg6"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d5s6mit30xrg6",
+          "type": "cicd"
         }
+      }
     }
+  }
 }

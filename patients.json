@@ -1,0 +1,202 @@
+{
+  "patient-dev": [
+      {
+          "PutRequest": {
+              "Item": {
+                  "patientId": {
+                      "N": 0
+                  },
+                  "name": {
+                      "S": "田中太郎"
+                  },
+                  "issued": {
+                      "B": false
+                  },
+                  "issuedDate": {
+                      "TODO": false
+                  },
+                  "checkedupDate": {
+                      "TODO": false
+                  },
+                  "age": {
+                      "N": 25
+                  },
+                  "mailAddress": {
+                      "S": "tanaka.taro@gmogshd.com"
+                  },
+                  "bmi": {
+                      "N": 18.4
+                  },
+                  "waist": {
+                      "N": 84.9
+                  },
+                  "blood_pressure": {
+                      "S": "84~129"
+                  },
+                  "eyesight": {
+                      "N": 1.5
+                  },
+                  "hearing": {
+                      "N": 25
+                  },
+                  "vital_capacity": {
+                      "N": 80
+                  },
+                  "ua": {
+                      "N": 5
+                  },
+                  "tc": {
+                      "N": 150
+                  },
+                  "tg": {
+                      "N": 100
+                  },
+                  "fpg": {
+                      "N": 90
+                  },
+                  "rbc": {
+                    "N": 300
+                },
+                "wbc": {
+                    "N": 5
+                },
+                "plt": {
+                    "N": 20
+                }
+              }
+          }
+      },
+      {
+        "PutRequest": {
+            "Item": {
+                "patientId": {
+                    "N": 1
+                },
+                "name": {
+                    "S": "佐藤一郎"
+                },
+                "issued": {
+                    "B": false
+                },
+                "issuedDate": {
+                    "TODO": false
+                },
+                "checkedupDate": {
+                    "TODO": false
+                },
+                "age": {
+                    "N": 30
+                },
+                "mailAddress": {
+                    "S": "ichiro.sato@gmogshd.com"
+                },
+                "bmi": {
+                    "N": 18.4
+                },
+                "waist": {
+                    "N": 84.9
+                },
+                "blood_pressure": {
+                    "S": "84~129"
+                },
+                "eyesight": {
+                    "N": 1.5
+                },
+                "hearing": {
+                    "N": 25
+                },
+                "vital_capacity": {
+                    "N": 80
+                },
+                "ua": {
+                    "N": 5
+                },
+                "tc": {
+                    "N": 150
+                },
+                "tg": {
+                    "N": 100
+                },
+                "fpg": {
+                    "N": 90
+                },
+                "rbc": {
+                  "N": 300
+              },
+              "wbc": {
+                  "N": 5
+              },
+              "plt": {
+                  "N": 20
+              }
+            }
+        }
+    },
+    {
+      "PutRequest": {
+          "Item": {
+              "patientId": {
+                  "N": 0
+              },
+              "name": {
+                  "S": "鈴木二郎"
+              },
+              "issued": {
+                  "B": false
+              },
+              "issuedDate": {
+                  "TODO": false
+              },
+              "checkedupDate": {
+                  "TODO": false
+              },
+              "age": {
+                  "N": 25
+              },
+              "mailAddress": {
+                  "S": "jiro.suzuki@gmogshd.com"
+              },
+              "bmi": {
+                  "N": 18.4
+              },
+              "waist": {
+                  "N": 84.9
+              },
+              "blood_pressure": {
+                  "S": "84~129"
+              },
+              "eyesight": {
+                  "N": 1.5
+              },
+              "hearing": {
+                  "N": 25
+              },
+              "vital_capacity": {
+                  "N": 80
+              },
+              "ua": {
+                  "N": 5
+              },
+              "tc": {
+                  "N": 150
+              },
+              "tg": {
+                  "N": 100
+              },
+              "fpg": {
+                  "N": 90
+              },
+              "rbc": {
+                "N": 300
+            },
+            "wbc": {
+                "N": 5
+            },
+            "plt": {
+                "N": 20
+            }
+          }
+      }
+  }
+  ]
+}

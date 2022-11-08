@@ -1,0 +1,10 @@
+{
+  "resourceName": "patient",
+  "tableName": "patient",
+  "partitionKey": {
+    "fieldName": "patientId",
+    "fieldType": "number"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}
