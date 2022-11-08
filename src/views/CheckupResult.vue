@@ -1,6 +1,23 @@
 <template>
   <v-row>
-    <template v-if="renderReady">TODO SimpleTable入れる</template>
+    <template v-if="renderReady">
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">Item</th>
+              <th class="text-left">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="entry in this.checkupResult" :key="entry.name">
+              <td>{{ entry.item }}</td>
+              <td>{{ entry.value }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table></template
+    >
     <template v-else>
       <div class="prog-circ-on-init">
         <v-progress-circular
@@ -33,7 +50,9 @@ export default {
     //   this.renderReady = true;
     // }, 5000);
 
-    this.user = await patientsApi.getPatients(this.$route.params.userId);
+    this.checkupResult = await patientsApi.getCheckupResult(
+      this.$route.params.userId
+    );
     // this.userLoggedin = authApi.isShownUserMyself(this.user.userId);
     // this.$emit("userChanged", this.user);
     this.renderReady = true;
