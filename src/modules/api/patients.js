@@ -12,6 +12,7 @@ export const getPatients = async (queryParams) => {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "X-Api-Key": process.env.VUE_APP_API_KEY,
       },
     });
 
@@ -32,6 +33,7 @@ export const getCheckupResult = async (patientId) => {
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
+          "X-Api-Key": process.env.VUE_APP_API_KEY,
         },
       }
     );
