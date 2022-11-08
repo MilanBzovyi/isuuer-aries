@@ -6,7 +6,8 @@
     <!-- メインエリア -->
     <!-- <メモ> :keyつけることで同じパスで違うParamの場合にも描画走る。 -->
     <v-main>
-      <router-view :key="$route.fullPath" v-on:userChanged="updateSidebar" />
+      <!-- <router-view :key="$route.fullPath" v-on:userChanged="updateSidebar" /> -->
+      <router-view :key="$route.fullPath" />
     </v-main>
   </div>
 </template>

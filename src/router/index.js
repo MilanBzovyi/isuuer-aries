@@ -2,8 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import OnePane from "@/views/template/OnePane.vue";
 import Patients from "@/views/Patients.vue";
-import CheckupResult from "@views/CheckupResult.vue";
-import ErrorDestination from "@views/ErrorDesitinaion.vue";
+import CheckupResult from "@/views/CheckupResult.vue";
+import ErrorDestination from "@/views/ErrorDestination.vue";
 Vue.use(VueRouter);
 
 const routes = [

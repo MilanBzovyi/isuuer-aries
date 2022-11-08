@@ -23,31 +23,47 @@
               />
             </v-hover> -->
             <v-list-item-content>
-              <v-list-item-title
-                >{{ user.name }} /
-                <span class="text-subtitle-2"
-                  >{{ user.checkedDate }}
-                </span></v-list-item-title
+              <v-list-item-title>{{ user.name }}</v-list-item-title>
+              <v-list-item-subtitle
+                >受診日:
+                {{
+                  new Date(user.checkedupDate * 1000).toLocaleDateString()
+                }}</v-list-item-subtitle
               >
-              <v-list-item-subtitle>{{ user.patientId }}</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
               <v-btn
+                outlined
                 text
                 color="secondary"
                 @click="showCheckupResult(user.patientId)"
-                >結果</v-btn
+                >診断結果</v-btn
               >
             </v-list-item-action>
             <template v-if="!user.issued">
               <v-list-item-action>
-                <v-btn text color="accent" @click="sendQRCodeforIssueVC(user)"
-                  >発行</v-btn
+                <v-btn
+                  outlined
+                  text
+                  color="accent"
+                  @click="sendQRCodeforIssueVC(user)"
+                  >発行する</v-btn
                 >
               </v-list-item-action>
             </template>
-            <template v-else>発行済み</template>
+            <template v-else>
+              <v-list-item-action
+                ><v-btn
+                  outlined
+                  text
+                  disabled
+                  color="accent"
+                  @click="sendQRCodeforIssueVC(user)"
+                  >発行済み
+                </v-btn></v-list-item-action
+              ></template
+            >
           </v-list-item>
           <v-divider :key="`divider-${i}`"></v-divider>
         </template>
@@ -126,21 +142,22 @@ export default {
       if (newKeyword === "") {
         this.filteredUsers = this.users;
       } else {
-        const params = {
-          userName: newKeyword,
-          block: 0,
-        };
-        const query = new URLSearchParams(params);
-        this.filteredUsers = await patientsApi.getPatients(query);
+        // バックエンド込み
+        // const params = {
+        //   userName: newKeyword,
+        //   block: 0,
+        // };
+        // const query = new URLSearchParams(params);
+        // this.filteredUsers = await patientsApi.getPatients(query);
 
         // フロントエンドのみ
-        // const localUsers = [];
-        // for (const user of this.users) {
-        //   if (user.name.indexOf(this.userNameKeyword) !== -1) {
-        //     localUsers.push(user);
-        //   }
-        // }
-        // this.filteredUsers = localUsers;
+        const localUsers = [];
+        for (const user of this.users) {
+          if (user.name.indexOf(this.userNameKeyword) !== -1) {
+            localUsers.push(user);
+          }
+        }
+        this.filteredUsers = localUsers;
       }
     }, 500),
   },
