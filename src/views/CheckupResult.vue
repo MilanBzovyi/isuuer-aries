@@ -1,34 +1,41 @@
 <template>
-  <v-row>
-    <template v-if="renderReady">
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">Item</th>
-              <th class="text-left">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="entry in this.checkupResult" :key="entry.name">
-              <td>{{ entry.item }}</td>
-              <td>{{ entry.value }}</td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table></template
-    >
-    <template v-else>
-      <div class="prog-circ-on-init">
-        <v-progress-circular
-          size="200"
-          width="5"
-          color="secondary"
-          indeterminate
-        ></v-progress-circular>
-      </div>
-    </template>
-  </v-row>
+  <div>
+    <v-row justify="left" class="ma-2">
+      <v-btn icon large color="accent" @click="back">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
+    </v-row>
+    <v-row justify="center" class="ma-5">
+      <template v-if="renderReady">
+        <v-simple-table class="elevation-2" style="width: 50%">
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">Item</th>
+                <th class="text-left">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="entry in checkupResult" :key="entry.item">
+                <td>{{ entry.item }}</td>
+                <td>{{ entry.value }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table></template
+      >
+      <template v-else>
+        <div class="prog-circ-on-init">
+          <v-progress-circular
+            size="200"
+            width="5"
+            color="secondary"
+            indeterminate
+          ></v-progress-circular>
+        </div>
+      </template>
+    </v-row>
+  </div>
 </template>
 <script>
 import * as patientsApi from "@/modules/api/patients.js";
@@ -36,8 +43,9 @@ import * as patientsApi from "@/modules/api/patients.js";
 export default {
   data() {
     return {
+      checkupResult: null,
       renderReady: false,
-      user: null,
+      // user: null,
       // userLoggedin: false,
     };
   },
@@ -51,7 +59,7 @@ export default {
     // }, 5000);
 
     this.checkupResult = await patientsApi.getCheckupResult(
-      this.$route.params.userId
+      this.$route.params.patientId
     );
     // this.userLoggedin = authApi.isShownUserMyself(this.user.userId);
     // this.$emit("userChanged", this.user);
