@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row justify="left" class="ma-2">
+    <v-row class="ma-2">
       <v-btn icon large color="accent" @click="back">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>

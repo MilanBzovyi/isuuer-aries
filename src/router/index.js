@@ -11,6 +11,9 @@ const routes = [
     path: "/",
     name: "OnePane",
     component: OnePane,
+    redirect: () => {
+      return { name: "Patients" };
+    },
     children: [
       {
         path: "/patients",
