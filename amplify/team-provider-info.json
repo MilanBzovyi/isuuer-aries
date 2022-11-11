@@ -17,6 +17,12 @@
           "appId": "d5s6mit30xrg6",
           "type": "cicd"
         }
+      },
+      "function": {
+        "patientsFunc": {
+          "deploymentBucketName": "amplify-healthcheckupissuer-dev-145946-deployment",
+          "s3Key": "amplify-builds/patientsFunc-53636178647061563434-build.zip"
+        }
       }
     }
   }

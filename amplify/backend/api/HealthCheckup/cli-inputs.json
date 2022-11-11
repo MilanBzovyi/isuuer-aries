@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/patients": {
+      "name": "/patients",
+      "lambdaFunction": "patientsFunc",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
