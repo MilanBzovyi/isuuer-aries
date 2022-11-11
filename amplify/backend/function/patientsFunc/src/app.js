@@ -38,7 +38,7 @@ app.get("/patients", async function (req, res) {
   };
 
   try {
-    const memos = await docClient.query(params).promise();
+    const memos = await docClient.scan(params).promise();
     return res.status(200).json(memos.Items);
   } catch (err) {
     res.status(500).json({ error: err });
