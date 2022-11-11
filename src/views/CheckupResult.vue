@@ -58,9 +58,10 @@ export default {
     //   this.renderReady = true;
     // }, 5000);
 
-    this.checkupResult = await patientsApi.getCheckupResult(
+    const checkupResultRaw = await patientsApi.getCheckupResult(
       this.$route.params.patientId
     );
+    this.checkupResult = patientsApi.changeCheckupResultLabel(checkupResultRaw);
     // this.userLoggedin = authApi.isShownUserMyself(this.user.userId);
     // this.$emit("userChanged", this.user);
     this.renderReady = true;

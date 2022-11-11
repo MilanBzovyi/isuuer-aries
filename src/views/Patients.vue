@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     showCheckupResult(patientId) {
-      if (patientId === "0") {
+      if (patientId === 0) {
         this.$router.push({
           name: "CheckupResult",
           params: { patientId: patientId },
