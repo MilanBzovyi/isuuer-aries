@@ -9,8 +9,8 @@
                   "name": {
                       "S": "田中太郎"
                   },
-                  "issued": {
-                      "BOOL": false
+                  "issueState": {
+                      "N": "0"
                   },
                   "issuedDate": {
                       "N": "0"
@@ -30,7 +30,7 @@
                   "waist": {
                       "N": "84.9"
                   },
-                  "blood_pressure": {
+                  "bloodPressure": {
                       "S": "84~129"
                   },
                   "eyesight": {
@@ -39,7 +39,7 @@
                   "hearing": {
                       "N": "25"
                   },
-                  "vital_capacity": {
+                  "vitalCapacity": {
                       "N": "80"
                   },
                   "ua": {
@@ -75,8 +75,8 @@
                 "name": {
                     "S": "佐藤一郎"
                 },
-                "issued": {
-                    "BOOL": false
+                "issueState": {
+                    "N": "0"
                 },
                 "issuedDate": {
                     "N": "0"
@@ -96,7 +96,7 @@
                 "waist": {
                     "N": "84.9"
                 },
-                "blood_pressure": {
+                "bloodPressure": {
                     "S": "84~129"
                 },
                 "eyesight": {
@@ -105,7 +105,7 @@
                 "hearing": {
                     "N": "25"
                 },
-                "vital_capacity": {
+                "vitalCapacity": {
                     "N": "80"
                 },
                 "ua": {
@@ -141,9 +141,9 @@
               "name": {
                   "S": "鈴木二郎"
               },
-              "issued": {
-                  "BOOL": false
-              },
+              "issueState": {
+                "N": "0"
+            },
               "issuedDate": {
                   "N": "0"
               },
@@ -162,7 +162,7 @@
               "waist": {
                   "N": "84.9"
               },
-              "blood_pressure": {
+              "bloodPressure": {
                   "S": "84~129"
               },
               "eyesight": {
@@ -171,7 +171,7 @@
               "hearing": {
                   "N": "25"
               },
-              "vital_capacity": {
+              "vitalCapacity": {
                   "N": "80"
               },
               "ua": {

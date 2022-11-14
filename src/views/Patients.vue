@@ -41,25 +41,27 @@
                 >診断結果</v-btn
               >
             </v-list-item-action>
-            <template v-if="!user.issued">
+            <template v-if="user.issueState === 0">
               <v-list-item-action>
                 <v-btn
                   outlined
                   text
                   color="accent"
                   @click="sendQRCodeforIssueVC(user)"
-                  >発行する</v-btn
+                  >発行を打診する</v-btn
                 >
               </v-list-item-action>
             </template>
-            <template v-else>
+            <template v-else-if="user.issueState === 1">
               <v-list-item-action
-                ><v-btn
-                  outlined
-                  text
-                  disabled
-                  color="accent"
-                  @click="sendQRCodeforIssueVC(user)"
+                ><v-btn outlined text disabled color="accent"
+                  >打診済み
+                </v-btn></v-list-item-action
+              ></template
+            >
+            <template v-else-if="user.issueState === 2">
+              <v-list-item-action
+                ><v-btn outlined text disabled color="accent"
                   >発行済み
                 </v-btn></v-list-item-action
               ></template

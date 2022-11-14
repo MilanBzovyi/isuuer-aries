@@ -28,6 +28,38 @@
           ]
         }
       ]
+    },
+    "HealthCheckupIssuerConnecitonListener": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "patient",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        }
+      ]
+    },
+    "HealthCheckupIssuerCredentialListener": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "patient",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        }
+      ]
     }
   },
   "api": {
@@ -38,6 +70,22 @@
         {
           "category": "function",
           "resourceName": "patientsFunc",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "HealthCheckupIssuerConnecitonListener",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "HealthCheckupIssuerCredentialListener",
           "attributes": [
             "Name",
             "Arn"

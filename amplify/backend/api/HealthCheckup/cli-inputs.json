@@ -7,6 +7,20 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/topic/connections": {
+      "name": "/topic/connections",
+      "lambdaFunction": "HealthCheckupIssuerConnecitonListener",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/topic/issue-credential": {
+      "name": "/topic/issue-credential",
+      "lambdaFunction": "HealthCheckupIssuerCredentialListener",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
