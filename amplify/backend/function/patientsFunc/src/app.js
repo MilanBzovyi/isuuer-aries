@@ -54,11 +54,9 @@ app.get("/patients/*", async function (req, res) {
     TableName: process.env.STORAGE_PATIENT_NAME,
   };
 
-  console.log(JSON.stringify(req));
-
   try {
     const checkupResult = await docClient.query(params).promise();
-    return res.status(200).json(checkupResult.Items);
+    return res.status(200).json(checkupResult.Items[0]);
   } catch (err) {
     res.status(500).json({ error: err });
   }
