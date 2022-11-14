@@ -62,8 +62,8 @@ export default {
       this.$route.params.patientId
     );
     console.log(checkupResultRaw);
-    // this.checkupResult = patientsApi.changeCheckupResultLabel(checkupResultRaw);
-    this.checkupResult = checkupResultRaw;
+    this.checkupResult = patientsApi.changeCheckupResultLabel(checkupResultRaw);
+    // this.checkupResult = checkupResultRaw;
     console.log(this.checkupResult);
 
     // this.userLoggedin = authApi.isShownUserMyself(this.user.userId);

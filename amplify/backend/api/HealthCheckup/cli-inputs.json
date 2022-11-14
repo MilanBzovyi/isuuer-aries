@@ -15,8 +15,8 @@
         "setting": "open"
       }
     },
-    "/topic/issue-credential": {
-      "name": "/topic/issue-credential",
+    "/topic/issue_credential": {
+      "name": "/topic/issue_credential",
       "lambdaFunction": "HealthCheckupIssuerCredentialListener",
       "permissions": {
         "setting": "open"

@@ -6,7 +6,6 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
-
 /* Amplify Params - DO NOT EDIT
 	ENV
 	REGION
@@ -15,84 +14,83 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_PATIENT_STREAMARN
 Amplify Params - DO NOT EDIT */
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const express = require("express");
+const bodyParser = require("body-parser");
+const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 
 // declare a new express app
-const app = express()
-app.use(bodyParser.json())
-app.use(awsServerlessExpressMiddleware.eventContext())
+const app = express();
+app.use(bodyParser.json());
+app.use(awsServerlessExpressMiddleware.eventContext());
 
 // Enable CORS for all methods
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "*")
-  next()
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  next();
 });
-
 
 /**********************
  * Example get method *
  **********************/
 
-app.get('/topic/issue-credential', function(req, res) {
+app.get("/topic/issue_credential", function (req, res) {
   // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+  res.json({ success: "get call succeed!", url: req.url });
 });
 
-app.get('/topic/issue-credential/*', function(req, res) {
+app.get("/topic/issue_credential/*", function (req, res) {
   // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
-});
-
-/****************************
-* Example post method *
-****************************/
-
-app.post('/topic/issue-credential', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
-
-app.post('/topic/issue-credential/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+  res.json({ success: "get call succeed!", url: req.url });
 });
 
 /****************************
-* Example put method *
-****************************/
+ * Example post method *
+ ****************************/
 
-app.put('/topic/issue-credential', function(req, res) {
+app.post("/topic/issue_credential", function (req, res) {
   // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+  res.json({ success: "post call succeed!", url: req.url, body: req.body });
 });
 
-app.put('/topic/issue-credential/*', function(req, res) {
+app.post("/topic/issue_credential/*", function (req, res) {
   // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+  res.json({ success: "post call succeed!", url: req.url, body: req.body });
 });
 
 /****************************
-* Example delete method *
-****************************/
+ * Example put method *
+ ****************************/
 
-app.delete('/topic/issue-credential', function(req, res) {
+app.put("/topic/issue_credential", function (req, res) {
   // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+  res.json({ success: "put call succeed!", url: req.url, body: req.body });
 });
 
-app.delete('/topic/issue-credential/*', function(req, res) {
+app.put("/topic/issue_credential/*", function (req, res) {
   // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+  res.json({ success: "put call succeed!", url: req.url, body: req.body });
 });
 
-app.listen(3000, function() {
-    console.log("App started")
+/****************************
+ * Example delete method *
+ ****************************/
+
+app.delete("/topic/issue_credential", function (req, res) {
+  // Add your code here
+  res.json({ success: "delete call succeed!", url: req.url });
+});
+
+app.delete("/topic/issue_credential/*", function (req, res) {
+  // Add your code here
+  res.json({ success: "delete call succeed!", url: req.url });
+});
+
+app.listen(3000, function () {
+  console.log("App started");
 });
 
 // Export the app object. When executing the application local this does nothing. However,
 // to port it to AWS Lambda we will create a wrapper around that will load the app from
 // this file
-module.exports = app
+module.exports = app;

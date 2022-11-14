@@ -50,7 +50,19 @@ export const getCheckupResult = async (patientId) => {
 };
 
 export const changeCheckupResultLabel = (checkupResultRaw) => {
-  // TODO
   console.log(checkupResultRaw);
-  // https://programmer-life.work/javascript/object-rename-key-javascript#1
+
+  checkupResultRaw["受診者ID"] = checkupResultRaw.patientId;
+  delete checkupResultRaw.patientId;
+
+  checkupResultRaw["年齢"] = checkupResultRaw.age;
+  delete checkupResultRaw.age;
+
+  checkupResultRaw["視力"] = checkupResultRaw.eyesight;
+  delete checkupResultRaw.eyesight;
+
+  checkupResultRaw["名前"] = checkupResultRaw.name;
+  delete checkupResultRaw.name;
+
+  return checkupResultRaw;
 };

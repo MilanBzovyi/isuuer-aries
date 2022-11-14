@@ -48,7 +48,7 @@
                   text
                   color="accent"
                   @click="sendQRCodeforIssueVC(user)"
-                  >発行を打診する</v-btn
+                  >証明書発行QR送信</v-btn
                 >
               </v-list-item-action>
             </template>
