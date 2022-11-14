@@ -61,7 +61,9 @@ export default {
     const checkupResultRaw = await patientsApi.getCheckupResult(
       this.$route.params.patientId
     );
+    console.log(checkupResultRaw);
     this.checkupResult = patientsApi.changeCheckupResultLabel(checkupResultRaw);
+
     // this.userLoggedin = authApi.isShownUserMyself(this.user.userId);
     // this.$emit("userChanged", this.user);
     this.renderReady = true;

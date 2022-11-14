@@ -38,18 +38,32 @@ app.get("/patients", async function (req, res) {
   };
 
   try {
-    const memos = await docClient.scan(params).promise();
-    return res.status(200).json(memos.Items);
+    const patients = await docClient.scan(params).promise();
+    return res.status(200).json(patients.Items);
   } catch (err) {
     res.status(500).json({ error: err });
   }
 });
 
-///////
+app.get("/patients/*", async function (req, res) {
+  const params = {
+    ExpressionAttributeValues: {
+      ":patientId": 0,
+    },
+    KeyConditionExpression: "patientId = :patientId",
+    TableName: process.env.STORAGE_PATIENT_NAME,
+  };
 
-app.get("/patients/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "get call succeed!", url: req.url });
+  console.log(JSON.stringify(req));
+
+  try {
+    const checkupResult = await docClient.query(params).promise();
+    return res.status(200).json(checkupResult.Items);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+
+  // res.json({ success: "get call succeed!", url: req.url });
 });
 
 /****************************
