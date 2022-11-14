@@ -50,17 +50,7 @@ export const getCheckupResult = async (patientId) => {
 };
 
 export const changeCheckupResultLabel = (checkupResultRaw) => {
-  const checkupResult = [];
-  for (const entry of checkupResultRaw) {
-    switch (entry.item) {
-      case "bmi":
-        checkupResult.push({ item: "BMI", value: entry.item });
-        break;
-      // TODO 項目全てのラベル変換
-      default:
-        break;
-    }
-  }
-
-  return checkupResult;
+  // TODO
+  console.log(checkupResultRaw);
+  // https://programmer-life.work/javascript/object-rename-key-javascript#1
 };

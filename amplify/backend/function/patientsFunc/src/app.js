@@ -48,7 +48,7 @@ app.get("/patients", async function (req, res) {
 app.get("/patients/*", async function (req, res) {
   const params = {
     ExpressionAttributeValues: {
-      ":patientId": 0,
+      ":patientId": parseInt(req.params[0], 10),
     },
     KeyConditionExpression: "patientId = :patientId",
     TableName: process.env.STORAGE_PATIENT_NAME,

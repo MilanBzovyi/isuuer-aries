@@ -163,14 +163,10 @@ export default {
   },
   methods: {
     showCheckupResult(patientId) {
-      if (patientId === 0) {
-        this.$router.push({
-          name: "CheckupResult",
-          params: { patientId: patientId },
-        });
-      } else {
-        alert("先頭の受診者のボタンを押下してね");
-      }
+      this.$router.push({
+        name: "CheckupResult",
+        params: { patientId: patientId },
+      });
     },
     sendQRCodeforIssueVC(user) {
       // TODO

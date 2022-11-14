@@ -16,9 +16,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="entry in checkupResult" :key="entry.item">
-                <td>{{ entry.item }}</td>
-                <td>{{ entry.value }}</td>
+              <tr v-for="(value, key) in checkupResult" :key="key">
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
               </tr>
             </tbody>
           </template>
@@ -62,7 +62,9 @@ export default {
       this.$route.params.patientId
     );
     console.log(checkupResultRaw);
-    this.checkupResult = patientsApi.changeCheckupResultLabel(checkupResultRaw);
+    // this.checkupResult = patientsApi.changeCheckupResultLabel(checkupResultRaw);
+    this.checkupResult = checkupResultRaw;
+    console.log(this.checkupResult);
 
     // this.userLoggedin = authApi.isShownUserMyself(this.user.userId);
     // this.$emit("userChanged", this.user);
