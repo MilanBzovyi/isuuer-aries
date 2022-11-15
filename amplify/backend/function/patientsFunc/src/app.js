@@ -85,7 +85,7 @@ app.get("/patients/*", async function (req, res) {
 const fetch = require("fetch");
 app.put("/patients/*", async function (req, res) {
   // TODO 3つの処理を非同期にする。
-  // リクエスト受付 -> DBリードからACA-PY叩く -> メール送信 -> DB更新(issueState)
+  // 詳細: リクエスト受付 -> DBリードからACA-PY叩く -> メール送信 -> DB更新(issueState)
 
   const params = {
     ExpressionAttributeValues: {
@@ -103,10 +103,61 @@ app.put("/patients/*", async function (req, res) {
     credential_proposal: {
       "@type": "issue-credential/1.0/credential-preview",
       attributes: [
-        // TODO ここどうにかしていく。めんどいから直書きでいいか。
         {
-          name: "favourite_drink",
-          value: "martini",
+          name: "patient_id",
+          value: checkupResult.patientId,
+        },
+        {
+          name: "bmi",
+          value: checkupResult.bmi,
+        },
+        {
+          name: "eyesight",
+          value: checkupResult.eyesight,
+        },
+        {
+          name: "hearing",
+          value: checkupResult.hearing,
+        },
+        {
+          name: "waist",
+          value: checkupResult.waist,
+        },
+        {
+          name: "blood_pressure",
+          value: checkupResult.bloodPressure,
+        },
+        {
+          name: "vital_capacity",
+          value: checkupResult.vitalCapacity,
+        },
+        {
+          name: "ua",
+          value: checkupResult.ua,
+        },
+        {
+          name: "tc",
+          value: checkupResult.tc,
+        },
+        {
+          name: "tg",
+          value: checkupResult.tg,
+        },
+        {
+          name: "fpg",
+          value: checkupResult.fpg,
+        },
+        {
+          name: "rbc",
+          value: checkupResult.rbc,
+        },
+        {
+          name: "wbc",
+          value: checkupResult.wbc,
+        },
+        {
+          name: "plt",
+          value: checkupResult.plt,
         },
       ],
     },
