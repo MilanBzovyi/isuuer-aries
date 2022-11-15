@@ -68,27 +68,25 @@ app.get("/patients/*", async function (req, res) {
  * Example post method *
  ****************************/
 
-app.post("/patients", function (req, res) {
-  // Add your code here
-  res.json({ success: "post call succeed!", url: req.url, body: req.body });
-});
+// app.post("/patients", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "post call succeed!", url: req.url, body: req.body });
+// });
 
-app.post("/patients/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "post call succeed!", url: req.url, body: req.body });
-});
+// app.post("/patients/*", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "post call succeed!", url: req.url, body: req.body });
+// });
 
-/****************************
- * Example put method *
- ****************************/
-
-app.put("/patients", function (req, res) {
-  // Add your code here
-  res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
+// app.put("/patients", function (req, res) {
+//   res.json({ success: "put call succeed!", url: req.url, body: req.body });
+// });
 
 app.put("/patients/*", function (req, res) {
-  // Add your code here
+  // TODO 非同期にする。
+  // [ ] LambdaのなかでACA-PyのEndpointよぶ
+  // [ ] LambdaのなかでSMSをよぶ
+  // [ ] DB状態更新(1: 発行オファー済み)
   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 });
 
@@ -96,15 +94,15 @@ app.put("/patients/*", function (req, res) {
  * Example delete method *
  ****************************/
 
-app.delete("/patients", function (req, res) {
-  // Add your code here
-  res.json({ success: "delete call succeed!", url: req.url });
-});
+// app.delete("/patients", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "delete call succeed!", url: req.url });
+// });
 
-app.delete("/patients/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "delete call succeed!", url: req.url });
-});
+// app.delete("/patients/*", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "delete call succeed!", url: req.url });
+// });
 
 // app.listen(3000, function () {
 //   console.log("App started");

@@ -34,57 +34,79 @@ app.use(function (req, res, next) {
  * Example get method *
  **********************/
 
-app.get("/topic/issue_credential", function (req, res) {
-  // Add your code here
-  res.json({ success: "get call succeed!", url: req.url });
-});
+// app.get("/topic/issue_credential", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "get call succeed!", url: req.url });
+// });
 
-app.get("/topic/issue_credential/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "get call succeed!", url: req.url });
-});
+// app.get("/topic/issue_credential/*", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "get call succeed!", url: req.url });
+// });
 
 /****************************
  * Example post method *
  ****************************/
 
-app.post("/topic/issue_credential", function (req, res) {
-  // Add your code here
-  res.json({ success: "post call succeed!", url: req.url, body: req.body });
+const AWS = require("aws-sdk");
+const docClient = new AWS.DynamoDB.DocumentClient();
+app.post("/topic/issue_credential", async function (req) {
+  // res.json({ success: "post call succeed!", url: req.url, body: req.body });
+
+  const state = req.body.state;
+  console.log(`state: ${state}`);
+  if (state === "done") {
+    var params = {
+      TableName: process.env.STORAGE_PATIENT_NAME,
+      Key: {
+        patientId: req.body.patientId,
+      },
+      UpdateExpression: "set issueState = :s",
+      ExpressionAttributeValues: {
+        ":s": 2,
+      },
+    };
+
+    try {
+      await docClient.update(params).promise();
+    } catch (err) {
+      console.log(`db update error: ${err}`);
+    }
+  }
 });
 
-app.post("/topic/issue_credential/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "post call succeed!", url: req.url, body: req.body });
-});
+// app.post("/topic/issue_credential/*", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "post call succeed!", url: req.url, body: req.body });
+// });
 
 /****************************
  * Example put method *
  ****************************/
 
-app.put("/topic/issue_credential", function (req, res) {
-  // Add your code here
-  res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
+// app.put("/topic/issue_credential", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "put call succeed!", url: req.url, body: req.body });
+// });
 
-app.put("/topic/issue_credential/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
+// app.put("/topic/issue_credential/*", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "put call succeed!", url: req.url, body: req.body });
+// });
 
 /****************************
  * Example delete method *
  ****************************/
 
-app.delete("/topic/issue_credential", function (req, res) {
-  // Add your code here
-  res.json({ success: "delete call succeed!", url: req.url });
-});
+// app.delete("/topic/issue_credential", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "delete call succeed!", url: req.url });
+// });
 
-app.delete("/topic/issue_credential/*", function (req, res) {
-  // Add your code here
-  res.json({ success: "delete call succeed!", url: req.url });
-});
+// app.delete("/topic/issue_credential/*", function (req, res) {
+//   // Add your code here
+//   res.json({ success: "delete call succeed!", url: req.url });
+// });
 
 // app.listen(3000, function () {
 //   console.log("App started");
