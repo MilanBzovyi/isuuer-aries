@@ -20,6 +20,7 @@ export const getPatients = async (queryParams) => {
     return patients;
   } catch (error) {
     console.log(error);
+    throw new Error(error);
   }
 };
 
@@ -46,6 +47,32 @@ export const getCheckupResult = async (patientId) => {
     }
   } catch (error) {
     console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const updateIssueState = async (patient) => {
+  try {
+    const response = await fetch(
+      `${process.env.VUE_APP_API_BASE_URL}/patients/${patient.patientId}`,
+      {
+        cache: "no-cache",
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(patient),
+      }
+    );
+    const res = await response.json();
+    console.log(`Responce code: ${res.state}`);
+    if (res.state !== 200) {
+      throw new Error(`update Issue State failed with state: ${res.state}`);
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
   }
 };
 

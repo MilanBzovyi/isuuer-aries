@@ -87,16 +87,8 @@ app.put("/patients/*", async function (req, res) {
   // TODO 3つの処理を非同期にする。
   // 詳細: リクエスト受付 -> DBリードからACA-PY叩く -> メール送信 -> DB更新(issueState)
 
-  const params = {
-    ExpressionAttributeValues: {
-      ":patientId": parseInt(req.params[0], 10),
-    },
-    KeyConditionExpression: "patientId = :patientId",
-    TableName: process.env.STORAGE_PATIENT_NAME,
-  };
-
-  const checkupResult = await docClient.query(params).promise().Items[0];
-
+  console.log(req.body);
+  const checkupResult = req.body;
   const issueCrdentialBody = {
     auto_remove: true,
     comment: `健康診断書VCの発行 / 受診者ID: ${checkupResult.patientId}`,
@@ -187,7 +179,7 @@ app.put("/patients/*", async function (req, res) {
     return res.status(500).json({ error: error });
   }
 
-  // TODO2 LambdaのなかでSMSをよぶ（最後）
+  // !!!!! TODO LambdaのなかでSMSをよぶ（最後） !!!!!
 
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,

@@ -43,13 +43,39 @@
             </v-list-item-action>
             <template v-if="user.issueState === 0">
               <v-list-item-action>
-                <v-btn
-                  outlined
-                  text
-                  color="accent"
-                  @click="sendQRCodeforIssueVC(user)"
-                  >証明書発行QR送信</v-btn
-                >
+                <v-dialog v-model="dialog" max-width="30%">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn outlined text v-bind="attrs" v-on="on" color="accent"
+                      >証明書発行QR送信</v-btn
+                    >
+                  </template>
+                  <v-card>
+                    <v-card-title lass="text-h2">
+                      証明書発行QRコード送信
+                    </v-card-title>
+                    <v-card-text>QRコードを送信しますか？</v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="accent"
+                        elevation="2"
+                        outlined
+                        :loading="deleteLoader"
+                        @click="sendQRCodeforIssueVC(user.patientId)"
+                      >
+                        する
+                      </v-btn>
+                      <v-btn
+                        color="primary"
+                        elevation="2"
+                        depressed
+                        @click="dialog = false"
+                      >
+                        しない
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </v-list-item-action>
             </template>
             <template v-else-if="user.issueState === 1">
@@ -170,10 +196,8 @@ export default {
         params: { patientId: patientId },
       });
     },
-    sendQRCodeforIssueVC(user) {
-      // TODO
-      console.log(JSON.stringify(user));
-      alert("holderにQRコードを送る!!");
+    async sendQRCodeforIssueVC(patientId) {
+      await patientsApi.updateIssueState(patientId);
     },
     // showUserBooks(userId) {
     //   this.$router.push({ name: "UserBooks", params: { userId: userId } });
