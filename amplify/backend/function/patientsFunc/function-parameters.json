@@ -9,5 +9,23 @@
       ]
     }
   },
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "issuerEndpoint",
+      "environmentVariableName": "ISSUER_ENDPOINT"
+    },
+    {
+      "cloudFormationParameterName": "issuerDid",
+      "environmentVariableName": "ISSUER_DID"
+    },
+    {
+      "cloudFormationParameterName": "schemaId",
+      "environmentVariableName": "SCHEMA_ID"
+    },
+    {
+      "cloudFormationParameterName": "credDefId",
+      "environmentVariableName": "CRED_DEF_ID"
+    }
+  ]
 }

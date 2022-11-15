@@ -56,7 +56,7 @@ app.post("/topic/issue_credential", async function (req) {
   const state = req.body.state;
   console.log(`state: ${state}`);
   if (state === "done") {
-    var params = {
+    const params = {
       TableName: process.env.STORAGE_PATIENT_NAME,
       Key: {
         patientId: req.body.patientId,

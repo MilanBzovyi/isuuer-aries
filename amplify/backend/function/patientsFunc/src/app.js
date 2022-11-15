@@ -84,12 +84,19 @@ app.get("/patients/*", async function (req, res) {
 
 const fetch = require("fetch");
 app.put("/patients/*", async function (req, res) {
-  // TODO2 3つの処理を非同期にする。
+  // TODO 3つの処理を非同期にする。
+  // リクエスト受付 -> DBリードからACA-PY叩く -> メール送信 -> DB更新(issueState)
 
-  // TODO1 まずdynamoから診断結果を取得する。
-  const checkupResult = {};
+  const params = {
+    ExpressionAttributeValues: {
+      ":patientId": parseInt(req.params[0], 10),
+    },
+    KeyConditionExpression: "patientId = :patientId",
+    TableName: process.env.STORAGE_PATIENT_NAME,
+  };
 
-  // TODO1 bodyの中身の実装
+  const checkupResult = await docClient.query(params).promise().Items[0];
+
   const issueCrdentialBody = {
     auto_remove: true,
     comment: `健康診断書VCの発行 / 受診者ID: ${checkupResult.patientId}`,
@@ -108,6 +115,7 @@ app.put("/patients/*", async function (req, res) {
     cred_def_id: `${process.env.CRED_DEF_ID}`,
     trace: true,
   };
+
   try {
     const response = await fetch(
       `${process.env.ISSUER_ENDPOINT}/issue-credential/create`,
@@ -125,13 +133,30 @@ app.put("/patients/*", async function (req, res) {
     console.log(res.message);
   } catch (error) {
     console.log(`error on calling aca-py's issue-credential/create: ${error}`);
+    return res.status(500).json({ error: error });
   }
 
-  // TODO2 2. LambdaのなかでSMSをよぶ（最後）
+  // TODO2 LambdaのなかでSMSをよぶ（最後）
 
-  // TODO2 3. DB状態更新(1: 発行オファー済み) !!!!ここからやるか!!!
+  const paramsforUpdate = {
+    TableName: process.env.STORAGE_PATIENT_NAME,
+    Key: {
+      patientId: checkupResult.patientId,
+    },
+    UpdateExpression: "set issueState = :s",
+    ExpressionAttributeValues: {
+      ":s": 1,
+    },
+  };
 
-  res.json({ success: "put call succeed!", url: req.url, body: req.body });
+  try {
+    await docClient.update(paramsforUpdate).promise();
+  } catch (err) {
+    console.log(`db updating issueState error: ${err}`);
+    return res.status(500).json({ error: err });
+  }
+
+  return res.status(200);
 });
 
 /****************************
