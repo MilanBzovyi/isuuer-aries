@@ -60,7 +60,7 @@
                         color="accent"
                         elevation="2"
                         outlined
-                        :loading="deleteLoader"
+                        :loading="qrSendingLoader"
                         @click="sendQRCodeforIssueVC(user.patientId)"
                       >
                         する
@@ -136,6 +136,9 @@ export default {
       renderReady: false,
       // Search
       userNameKeyword: "",
+      // Dialog
+      dialog: null,
+      qrSendingLoader: false,
       // Pagination
       paginator: null,
       pagingTakingPlace: false,
@@ -197,7 +200,9 @@ export default {
       });
     },
     async sendQRCodeforIssueVC(patientId) {
+      this.qrSendingLoader = true;
       await patientsApi.updateIssueState(patientId);
+      this.qrSendingLoader = false;
     },
     // showUserBooks(userId) {
     //   this.$router.push({ name: "UserBooks", params: { userId: userId } });
