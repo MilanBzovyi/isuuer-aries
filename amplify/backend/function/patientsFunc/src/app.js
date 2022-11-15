@@ -82,11 +82,55 @@ app.get("/patients/*", async function (req, res) {
 //   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 // });
 
-app.put("/patients/*", function (req, res) {
-  // TODO 非同期にする。
-  // [ ] LambdaのなかでACA-PyのEndpointよぶ
-  // [ ] LambdaのなかでSMSをよぶ
-  // [ ] DB状態更新(1: 発行オファー済み)
+const fetch = require("fetch");
+app.put("/patients/*", async function (req, res) {
+  // TODO2 3つの処理を非同期にする。
+
+  // TODO1 まずdynamoから診断結果を取得する。
+  const checkupResult = {};
+
+  // TODO1 bodyの中身の実装
+  const issueCrdentialBody = {
+    auto_remove: true,
+    comment: `健康診断書VCの発行 / 受診者ID: ${checkupResult.patientId}`,
+    credential_proposal: {
+      "@type": "issue-credential/1.0/credential-preview",
+      attributes: [
+        // TODO ここどうにかしていく。めんどいから直書きでいいか。
+        {
+          name: "favourite_drink",
+          value: "martini",
+        },
+      ],
+    },
+    issuer_did: `${process.env.ISSUER_DID}`,
+    schema_id: `${process.env.SCHEMA_ID}`,
+    cred_def_id: `${process.env.CRED_DEF_ID}`,
+    trace: true,
+  };
+  try {
+    const response = await fetch(
+      `${process.env.ISSUER_ENDPOINT}/issue-credential/create`,
+      {
+        cache: "no-cache",
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(issueCrdentialBody),
+      }
+    );
+    const res = await response.json();
+    console.log(res.message);
+  } catch (error) {
+    console.log(`error on calling aca-py's issue-credential/create: ${error}`);
+  }
+
+  // TODO2 2. LambdaのなかでSMSをよぶ（最後）
+
+  // TODO2 3. DB状態更新(1: 発行オファー済み) !!!!ここからやるか!!!
+
   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 });
 

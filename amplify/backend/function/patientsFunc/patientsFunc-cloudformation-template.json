@@ -90,6 +90,18 @@
             },
             "STORAGE_PATIENT_STREAMARN": {
               "Ref": "storagepatientStreamArn"
+            },
+            "ISSUER_ENDPOINT": {
+              "Value": "http://35.77.39.134:8071"
+            },
+            "ISSUER_DID": {
+              "Value": "did:sov:Vtw2qgmuMVy3rk2ipw7Vxt"
+            },
+            "SCHEMA_ID": {
+              "Value": "Vtw2qgmuMVy3rk2ipw7Vxt:2:health_checkup_result:1.1"
+            },
+            "CRED_DEF_ID": {
+              "Value": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1"
             }
           }
         },
