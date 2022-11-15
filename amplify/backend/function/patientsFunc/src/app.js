@@ -83,6 +83,7 @@ app.get("/patients/*", async function (req, res) {
 // });
 
 const fetch = require("fetch");
+const sns = new AWS.SNS();
 app.put("/patients/*", async function (req, res) {
   // TODO 3つの処理を非同期にする。
   // 詳細: リクエスト受付 -> DBリードからACA-PY叩く -> メール送信 -> DB更新(issueState)
@@ -159,6 +160,7 @@ app.put("/patients/*", async function (req, res) {
     trace: true,
   };
 
+  let invitationURL = "";
   try {
     const response = await fetch(
       `${process.env.ISSUER_ENDPOINT}/issue-credential/create`,
@@ -173,13 +175,25 @@ app.put("/patients/*", async function (req, res) {
       }
     );
     const res = await response.json();
-    console.log(res.message);
+    console.log(res);
+
+    const credentialExchangeId = res.credential_exchange_id;
+    console.log(credentialExchangeId);
+
+    // TODO POST /out-of-band/create-invitationを叩く。
+    invitationURL = "";
   } catch (error) {
     console.log(`error on calling aca-py's issue-credential/create: ${error}`);
     return res.status(500).json({ error: error });
   }
 
-  // !!!!! TODO LambdaのなかでSMSをよぶ（最後） !!!!!
+  // TODO SNSのTopicの設定
+  const snsParams = {
+    TopicArn: "arn:aws:sns:ap-northeast-1:xxxxxxxxx:sns-topic-name",
+    Subject: "健康診断結果証明書発行の打診通知",
+    Message: `${checkupResult.name}さん\n\nFOO病院です。以下のリンクをクリックして健康診断書を発行してください。\n\n${invitationURL}`,
+  };
+  await sns.publish(snsParams).promise();
 
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
