@@ -162,7 +162,7 @@ app.put("/patients/*", async function (req, res) {
 
   let invitationURL = "";
   try {
-    const response = await fetch(
+    const issueCredentialResponse = await fetch(
       `${process.env.ISSUER_ENDPOINT}/issue-credential/create`,
       {
         cache: "no-cache",
@@ -174,14 +174,38 @@ app.put("/patients/*", async function (req, res) {
         body: JSON.stringify(issueCrdentialBody),
       }
     );
-    const res = await response.json();
-    console.log(res);
+    const issueCredentialResJson = await issueCredentialResponse.json();
+    console.log(issueCredentialResJson);
 
-    const credentialExchangeId = res.credential_exchange_id;
+    const credentialExchangeId = issueCredentialResJson.credential_exchange_id;
     console.log(credentialExchangeId);
 
-    // TODO POST /out-of-band/create-invitationを叩く。
-    invitationURL = "";
+    const createInvitationReqBody = {
+      attachments: [
+        {
+          id: credentialExchangeId,
+          type: "issue-credential",
+        },
+      ],
+      my_label: `${checkupResult.name}さんへのVC発行の打診`,
+    };
+    const createInvitationResponse = await fetch(
+      `${process.env.ISSUER_ENDPOINT}/out-of-band/create-invitation`,
+      {
+        cache: "no-cache",
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(createInvitationReqBody),
+      }
+    );
+    const createInvitationResponseJson = await createInvitationResponse.json();
+    console.log(createInvitationResponseJson);
+
+    invitationURL = createInvitationResponseJson.invitation_url;
+    console.log(invitationURL);
   } catch (error) {
     console.log(`error on calling aca-py's issue-credential/create: ${error}`);
     return res.status(500).json({ error: error });
