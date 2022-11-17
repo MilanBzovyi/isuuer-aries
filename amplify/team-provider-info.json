@@ -25,7 +25,8 @@
           "issuerEndpoint": "http://35.77.39.134:8071",
           "issuerDid": "did:sov:Vtw2qgmuMVy3rk2ipw7Vxt",
           "schemaId": "Vtw2qgmuMVy3rk2ipw7Vxt:2:health_checkup_result:1.1",
-          "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1"
+          "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1",
+          "snsTopicArn": "arn:aws:sns:ap-northeast-1:991005209332:health-checkup"
         }
       }
     }

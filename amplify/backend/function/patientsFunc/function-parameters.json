@@ -26,6 +26,10 @@
     {
       "cloudFormationParameterName": "credDefId",
       "environmentVariableName": "CRED_DEF_ID"
+    },
+    {
+      "cloudFormationParameterName": "snsTopicArn",
+      "environmentVariableName": "SNS_TOPIC_ARN"
     }
   ]
 }

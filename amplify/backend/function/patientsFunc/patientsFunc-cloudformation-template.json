@@ -39,6 +39,9 @@
     },
     "credDefId": {
       "Type": "String"
+    },
+    "snsTopicArn": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -114,6 +117,9 @@
             },
             "CRED_DEF_ID": {
               "Ref": "credDefId"
+            },
+            "SNS_TOPIC_ARN": {
+              "Ref": "snsTopicArn"
             }
           }
         },

@@ -211,9 +211,8 @@ app.put("/patients/*", async function (req, res) {
     return res.status(500).json({ error: error });
   }
 
-  // TODO SNSのTopicの設定
   const snsParams = {
-    TopicArn: "arn:aws:sns:ap-northeast-1:xxxxxxxxx:sns-topic-name",
+    TopicArn: process.env.SNS_TOPIC_ARN,
     Subject: "健康診断結果証明書発行の打診通知",
     Message: `${checkupResult.name}さん\n\nFOO病院です。以下のリンクをクリックして健康診断書を発行してください。\n\n${invitationURL}`,
   };
