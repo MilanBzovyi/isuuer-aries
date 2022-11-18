@@ -28,8 +28,12 @@
       "environmentVariableName": "CRED_DEF_ID"
     },
     {
-      "cloudFormationParameterName": "snsTopicArn",
-      "environmentVariableName": "SNS_TOPIC_ARN"
+      "cloudFormationParameterName": "issuerEmailTestAddress",
+      "environmentVariableName": "ISSUER_EMAIL_TEST_ADDRESS"
+    },
+    {
+      "cloudFormationParameterName": "holderEmailTestAddress",
+      "environmentVariableName": "HOLDER_EMAIL_TEST_ADDRESS"
     }
   ]
 }

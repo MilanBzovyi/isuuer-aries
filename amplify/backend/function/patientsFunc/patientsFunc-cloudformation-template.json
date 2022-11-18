@@ -40,7 +40,10 @@
     "credDefId": {
       "Type": "String"
     },
-    "snsTopicArn": {
+    "issuerEmailTestAddress": {
+      "Type": "String"
+    },
+    "holderEmailTestAddress": {
       "Type": "String"
     }
   },
@@ -118,8 +121,11 @@
             "CRED_DEF_ID": {
               "Ref": "credDefId"
             },
-            "SNS_TOPIC_ARN": {
-              "Ref": "snsTopicArn"
+            "ISSUER_EMAIL_TEST_ADDRESS": {
+              "Ref": "issuerEmailTestAddress"
+            },
+            "HOLDER_EMAIL_TEST_ADDRESS": {
+              "Ref": "holderEmailTestAddress"
             }
           }
         },

@@ -83,7 +83,7 @@ app.get("/patients/*", async function (req, res) {
 // });
 
 const fetch = require("fetch");
-const sns = new AWS.SNS();
+const ses = new AWS.SES({ region: "ap-northeast-1" });
 app.put("/patients/*", async function (req, res) {
   // TODO 3つの処理を非同期にする。
   // 詳細: リクエスト受付 -> DBリードからACA-PY叩く -> メール送信 -> DB更新(issueState)
@@ -205,18 +205,35 @@ app.put("/patients/*", async function (req, res) {
     console.log(createInvitationResponseJson);
 
     invitationURL = createInvitationResponseJson.invitation_url;
+    // TODO holder://issue?url=tokenの形にURLを置き換える。
     console.log(invitationURL);
   } catch (error) {
     console.log(`error on calling aca-py's issue-credential/create: ${error}`);
     return res.status(500).json({ error: error });
   }
 
-  const snsParams = {
-    TopicArn: process.env.SNS_TOPIC_ARN,
-    Subject: "健康診断結果証明書発行の打診通知",
-    Message: `${checkupResult.name}さん\n\nFOO病院です。以下のリンクをクリックして健康診断書を発行してください。\n\n${invitationURL}`,
+  // const snsParams = {
+  //   TopicArn: process.env.SNS_TOPIC_ARN,
+  //   Subject: "健康診断結果証明書発行の打診通知",
+  //   Message: `${checkupResult.name}さん\n\n以下のリンクをクリックして健康診断書証明書を発行してください。\n\n${invitationURL}`,
+  // };
+  // await sns.publish(snsParams).promise();
+  const sesParams = {
+    Source: process.env.ISSUER_EMAIL_TEST_ADDRESS,
+    Destination: {
+      ToAddresses: [process.env.HOLDER_EMAIL_TEST_ADDRESS],
+    },
+    Message: {
+      Subject: { Data: "健康診断結果証明書発行の打診通知" },
+      Body: {
+        Text: {
+          Data: `${checkupResult.name}さん\n\n以下のリンクをクリックして健康診断書証明書を発行してください。\n\n${invitationURL}`,
+        },
+      },
+    },
   };
-  await sns.publish(snsParams).promise();
+
+  await ses.sendEmail(sesParams).promise();
 
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
