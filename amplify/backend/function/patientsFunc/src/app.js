@@ -22,7 +22,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import awsServerlessExpressMiddleware from "aws-serverless-express/middleware.js";
 import fetch from "node-fetch";
-import * as AWS from "aws-sdk";
+import AWS from "aws-sdk/lib/aws.js";
 const ses = new AWS.SES({ region: "ap-northeast-1" });
 const docClient = new AWS.DynamoDB.DocumentClient();
 
