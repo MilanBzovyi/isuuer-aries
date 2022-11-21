@@ -20,7 +20,7 @@ Amplify Params - DO NOT EDIT */
 // const AWS = require("aws-sdk");
 import express from "express";
 import bodyParser from "body-parser";
-import awsServerlessExpressMiddleware from "aws-serverless-express/middleware";
+import awsServerlessExpressMiddleware from "aws-serverless-express/middleware.js";
 import fetch from "node-fetch";
 import AWS from "aws-sdk";
 const ses = new AWS.SES({ region: "ap-northeast-1" });
