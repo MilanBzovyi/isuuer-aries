@@ -14,9 +14,17 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_PATIENT_STREAMARN
 Amplify Params - DO NOT EDIT */
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
+// const express = require("express");
+// const bodyParser = require("body-parser");
+// const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
+// const AWS = require("aws-sdk");
+import express from "express";
+import bodyParser from "body-parser";
+import awsServerlessExpressMiddleware from "aws-serverless-express/middleware";
+import fetch from "node-fetch";
+import AWS from "aws-sdk";
+const ses = new AWS.SES({ region: "ap-northeast-1" });
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 // declare a new express app
 const app = express();
@@ -30,8 +38,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-const AWS = require("aws-sdk");
-const docClient = new AWS.DynamoDB.DocumentClient();
 app.get("/patients", async function (req, res) {
   const params = {
     TableName: process.env.STORAGE_PATIENT_NAME,
@@ -82,8 +88,6 @@ app.get("/patients/*", async function (req, res) {
 //   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 // });
 
-const fetch = require("node-fetch");
-const ses = new AWS.SES({ region: "ap-northeast-1" });
 app.put("/patients/*", async function (req, res) {
   // TODO 3つの処理を非同期にする。
   // 詳細: リクエスト受付 -> DBリードからACA-PY叩く -> メール送信 -> DB更新(issueState)
