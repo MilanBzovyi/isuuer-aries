@@ -14,15 +14,11 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_PATIENT_STREAMARN
 Amplify Params - DO NOT EDIT */
 
-// const express = require("express");
-// const bodyParser = require("body-parser");
-// const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
+const express = require("express");
+const bodyParser = require("body-parser");
+const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const AWS = require("aws-sdk");
-import express from "express";
-import bodyParser from "body-parser";
-import awsServerlessExpressMiddleware from "aws-serverless-express/middleware.js";
-import fetch from "node-fetch";
-// import AWS from "aws-sdk/lib/aws.js";
+const fetch = require("node-fetch");
 const ses = new AWS.SES({ region: "ap-northeast-1" });
 const docClient = new AWS.DynamoDB.DocumentClient();
 
@@ -287,4 +283,4 @@ app.put("/patients/*", async function (req, res) {
 // Export the app object. When executing the application local this does nothing. However,
 // to port it to AWS Lambda we will create a wrapper around that will load the app from
 // this file
-export default app;
+module.exports = app;

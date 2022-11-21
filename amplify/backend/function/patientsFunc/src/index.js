@@ -1,7 +1,7 @@
-// const awsServerlessExpress = require('aws-serverless-express');
-// const app = require('./app');
-import awsServerlessExpress from "aws-serverless-express";
-import app from "./app.js";
+const awsServerlessExpress = require("aws-serverless-express");
+const app = require("./app");
+// import awsServerlessExpress from "aws-serverless-express";
+// import app from "./app.js";
 
 /**
  * @type {import('http').Server}
