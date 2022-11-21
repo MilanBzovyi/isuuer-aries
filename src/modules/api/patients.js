@@ -16,8 +16,12 @@ export const getPatients = async (queryParams) => {
       },
     });
 
-    const patients = await response.json();
-    return patients;
+    if (response.ok) {
+      const patients = await response.json();
+      return patients;
+    } else {
+      throw new Error(response.statusText);
+    }
   } catch (error) {
     console.log(error);
     throw new Error(error);
@@ -39,11 +43,15 @@ export const getCheckupResult = async (patientId) => {
       }
     );
 
-    const patient = await response.json();
-    if (patient) {
-      return patient;
+    if (response.ok) {
+      const patient = await response.json();
+      if (patient) {
+        return patient;
+      } else {
+        throw new Error(`employee id:${patient} was not found.`);
+      }
     } else {
-      throw new Error(`employee id:${patient} was not found.`);
+      throw new Error(response.statusText);
     }
   } catch (error) {
     console.log(error);
@@ -65,10 +73,12 @@ export const updateIssueState = async (patient) => {
         body: JSON.stringify(patient),
       }
     );
-    const res = await response.json();
-    console.log(`Responce code: ${res.state}`);
-    if (res.state !== 200) {
-      throw new Error(`update Issue State failed with state: ${res.state}`);
+
+    if (response.ok) {
+      const res = await response.json();
+      console.log(`Responce code: ${res.state}`);
+    } else {
+      throw new Error(response.statusText);
     }
   } catch (error) {
     console.log(error);

@@ -82,7 +82,7 @@ app.get("/patients/*", async function (req, res) {
 //   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 // });
 
-const fetch = require("fetch");
+const fetch = require("node-fetch");
 const ses = new AWS.SES({ region: "ap-northeast-1" });
 app.put("/patients/*", async function (req, res) {
   // TODO 3つの処理を非同期にする。
@@ -174,8 +174,14 @@ app.put("/patients/*", async function (req, res) {
         body: JSON.stringify(issueCrdentialBody),
       }
     );
-    const issueCredentialResJson = await issueCredentialResponse.json();
-    console.log(issueCredentialResJson);
+
+    let issueCredentialResJson = null;
+    if (issueCredentialResponse.ok) {
+      issueCredentialResJson = await issueCredentialResponse.json();
+      console.log(issueCredentialResJson);
+    } else {
+      throw Error(issueCredentialResponse.statusText);
+    }
 
     const credentialExchangeId = issueCredentialResJson.credential_exchange_id;
     console.log(credentialExchangeId);
