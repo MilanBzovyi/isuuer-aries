@@ -229,8 +229,7 @@ export default {
         }
       }
 
-      // await patientsApi.updateIssueState(patient);
-
+      await patientsApi.updateIssueState(patient);
       this.qrSendingLoader = false;
       this.qrSendingDialog[patient.patientId] = false;
       this.qrSendingSnackbar = true;
