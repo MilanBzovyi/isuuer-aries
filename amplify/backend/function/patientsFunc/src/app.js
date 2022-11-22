@@ -160,7 +160,7 @@ app.put("/patients/*", async function (req, res) {
     trace: true,
   };
 
-  let invitationURL = "";
+  let deepLinkInvitation = "";
   try {
     const issueCredentialResponse = await fetch(
       `${process.env.ISSUER_ENDPOINT}/issue-credential/create`,
@@ -222,9 +222,11 @@ app.put("/patients/*", async function (req, res) {
       throw new Error(createInvitationResponse.statusText);
     }
 
+    // oob=invitationJSON
     // TODO holder://issue?url=tokenの形にURLを置き換える。
-    invitationURL = createInvitationResponseJson.invitation_url;
+    const invitationURL = createInvitationResponseJson.invitation_url;
     console.log(invitationURL);
+    deepLinkInvitation = invitationURL.split("oob=")[1];
   } catch (error) {
     return res.status(500);
   }
@@ -244,7 +246,7 @@ app.put("/patients/*", async function (req, res) {
       Subject: { Data: "健康診断結果証明書発行オファー" },
       Body: {
         Text: {
-          Data: `${checkupResult.name}さん\n\n以下のリンクをクリックして健康診断書証明書を発行してください。\n\n${invitationURL}`,
+          Data: `${checkupResult.name}さん\n\n以下のリンクをクリックして健康診断書証明書を発行してください。\n\n${deepLinkInvitation}`,
         },
       },
     },

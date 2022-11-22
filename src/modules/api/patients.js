@@ -73,14 +73,11 @@ export const updateIssueState = async (patient) => {
         body: JSON.stringify(patient),
       }
     );
-    if (response.ok) {
-      const res = await response.json();
-      console.log(`Responce code: ${res.state}`);
-    } else {
+    if (!response.ok) {
       throw new Error(response.statusText);
     }
   } catch (error) {
-    console.log(error);
+    console.log(JSON.stringify(error));
     throw new Error(error);
   }
 };

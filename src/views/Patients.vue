@@ -228,14 +228,19 @@ export default {
       //   }
       // }
 
-      this.qrSendingLoader = true;
-      await patientsApi.updateIssueState(patient);
-      this.qrSendingLoader = false;
-      this.qrSendingDialog[patient.patientId] = false;
-      this.qrSendingSnackbar = true;
-
-      this.users = await patientsApi.getPatients();
-      this.filteredUsers = this.users;
+      try {
+        this.qrSendingLoader = true;
+        await patientsApi.updateIssueState(patient);
+        this.qrSendingLoader = false;
+        this.qrSendingDialog[patient.patientId] = false;
+        this.qrSendingSnackbar = true;
+        this.users = await patientsApi.getPatients();
+        this.filteredUsers = this.users;
+      } catch (error) {
+        this.qrSendingLoader = false;
+        this.qrSendingDialog[patient.patientId] = false;
+        alert("予期しないエラーが発生しました。");
+      }
     },
     // showUserBooks(userId) {
     //   this.$router.push({ name: "UserBooks", params: { userId: userId } });
