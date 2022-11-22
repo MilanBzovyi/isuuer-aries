@@ -46,15 +46,17 @@
                 <v-dialog v-model="qrSendingDialog" max-width="30%">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn outlined text v-bind="attrs" v-on="on" color="accent"
-                      >証明書発行QR送信</v-btn
+                      >証明書発行オファー</v-btn
                     >
                   </template>
                   <v-card>
                     <v-card-title class="text-h5 accent white--text">
-                      証明書発行QRコード送信
+                      証明書発行オファーメール送信
                     </v-card-title>
                     <v-card-text class="mt-3"
-                      >QRコードを送信しますか？</v-card-text
+                      >{{
+                        user.name
+                      }}さんに発行オファーメールを送信しますか？</v-card-text
                     >
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -62,7 +64,7 @@
                         color="accent"
                         elevation="2"
                         :loading="qrSendingLoader"
-                        @click="sendQRCodeforIssueVC(user.patientId)"
+                        @click="sendQRCodeforIssueVC(user)"
                       >
                         する
                       </v-btn>
@@ -211,7 +213,7 @@ export default {
         params: { patientId: patientId },
       });
     },
-    async sendQRCodeforIssueVC(patientId) {
+    async sendQRCodeforIssueVC(patient) {
       // for frontend testing...
       // console.log(patientId);
       // this.qrSendingLoader = true;
@@ -222,7 +224,7 @@ export default {
       // }, 3000);
 
       this.qrSendingLoader = true;
-      await patientsApi.updateIssueState(patientId);
+      await patientsApi.updateIssueState(patient);
       this.qrSendingDialog = false;
       this.qrSendingSnackbar = true;
     },

@@ -180,6 +180,9 @@ app.put("/patients/*", async function (req, res) {
       issueCredentialResJson = await issueCredentialResponse.json();
       console.log(issueCredentialResJson);
     } else {
+      console.error(
+        `on calling aca-py's issue-credential/create: ${issueCredentialResponse.statusText}`
+      );
       throw Error(issueCredentialResponse.statusText);
     }
 
@@ -207,15 +210,23 @@ app.put("/patients/*", async function (req, res) {
         body: JSON.stringify(createInvitationReqBody),
       }
     );
-    const createInvitationResponseJson = await createInvitationResponse.json();
-    console.log(createInvitationResponseJson);
 
-    invitationURL = createInvitationResponseJson.invitation_url;
+    let createInvitationResponseJson = null;
+    if (createInvitationResponse.ok) {
+      createInvitationResponseJson = await createInvitationResponse.json();
+      console.log(createInvitationResponseJson);
+    } else {
+      console.error(
+        `on calling aca-py's out-of-band/create-invitation: ${createInvitationResponse.statusText}`
+      );
+      throw new Error(createInvitationResponse.statusText);
+    }
+
     // TODO holder://issue?url=tokenの形にURLを置き換える。
+    invitationURL = createInvitationResponseJson.invitation_url;
     console.log(invitationURL);
   } catch (error) {
-    console.log(`error on calling aca-py's issue-credential/create: ${error}`);
-    return res.status(500).json({ error: error });
+    return res.status(500);
   }
 
   // const snsParams = {
