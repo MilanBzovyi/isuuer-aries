@@ -230,7 +230,6 @@ export default {
 
       this.qrSendingLoader = true;
       await patientsApi.updateIssueState(patient);
-      console.log("ihihi");
       this.qrSendingLoader = false;
       this.qrSendingDialog[patient.patientId] = false;
       this.qrSendingSnackbar = true;

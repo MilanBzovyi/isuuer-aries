@@ -196,7 +196,7 @@ app.put("/patients/*", async function (req, res) {
           type: "credential-offer",
         },
       ],
-      my_label: `${checkupResult.name}さんへのVC発行の打診`,
+      my_label: `${checkupResult.name}さんへのVC発行オファー`,
     };
     const createInvitationResponse = await fetch(
       `${process.env.ISSUER_ENDPOINT}/out-of-band/create-invitation`,
@@ -231,7 +231,7 @@ app.put("/patients/*", async function (req, res) {
 
   // const snsParams = {
   //   TopicArn: process.env.SNS_TOPIC_ARN,
-  //   Subject: "健康診断結果証明書発行の打診通知",
+  //   Subject: "健康診断結果証明書発行オファー",
   //   Message: `${checkupResult.name}さん\n\n以下のリンクをクリックして健康診断書証明書を発行してください。\n\n${invitationURL}`,
   // };
   // await sns.publish(snsParams).promise();
@@ -241,7 +241,7 @@ app.put("/patients/*", async function (req, res) {
       ToAddresses: [process.env.HOLDER_EMAIL_TEST_ADDRESS],
     },
     Message: {
-      Subject: { Data: "健康診断結果証明書発行の打診通知" },
+      Subject: { Data: "健康診断結果証明書発行オファー" },
       Body: {
         Text: {
           Data: `${checkupResult.name}さん\n\n以下のリンクをクリックして健康診断書証明書を発行してください。\n\n${invitationURL}`,
