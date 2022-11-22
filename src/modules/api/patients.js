@@ -109,7 +109,7 @@ export const changeCheckupResultLabel = (checkupResultRaw) => {
   if (issueState === 0) {
     checkupResultRaw["証明書発行状態"] = "未発行";
   } else if (issueState === 1) {
-    checkupResultRaw["証明書発行状態"] = "発行QRコード送信済み";
+    checkupResultRaw["証明書発行状態"] = "発行オファーメール送信済み";
   } else if (issueState === 2) {
     checkupResultRaw["証明書発行状態"] = "発行済み";
   }

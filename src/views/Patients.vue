@@ -41,11 +41,14 @@
                 >診断結果</v-btn
               >
             </v-list-item-action>
-            <template v-if="user.issueState === 0">
-              <v-list-item-action>
-                <v-dialog v-model="qrSendingDialog" max-width="30%">
+            <v-list-item-action>
+              <template v-if="user.issueState === 0">
+                <v-dialog
+                  v-model="qrSendingDialog[user.patientId]"
+                  max-width="30%"
+                >
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn outlined text v-bind="attrs" v-on="on" color="accent"
+                    <v-btn v-bind="attrs" v-on="on" color="accent" outlined text
                       >証明書発行オファー送信</v-btn
                     >
                   </template>
@@ -64,7 +67,7 @@
                         color="accent"
                         elevation="2"
                         :loading="qrSendingLoader"
-                        @click="sendQRCodeforIssueVC(user)"
+                        @click="sendOfferMailforIssueVC(user)"
                       >
                         する
                       </v-btn>
@@ -73,41 +76,36 @@
                         elevation="2"
                         outlined
                         depressed
-                        @click="qrSendingDialog = false"
+                        @click="qrSendingDialog[user.patientId] = false"
                       >
                         しない
                       </v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
-              </v-list-item-action>
-            </template>
-            <template v-else-if="user.issueState === 1">
-              <v-list-item-action
-                ><v-btn outlined text disabled color="accent"
+              </template>
+              <template v-else-if="user.issueState === 1">
+                <v-btn outlined text disabled color="accent"
                   >オファー済み
-                </v-btn></v-list-item-action
-              ></template
-            >
-            <template v-else-if="user.issueState === 2">
-              <v-list-item-action
-                ><v-btn outlined text disabled color="accent"
+                </v-btn>
+              </template>
+              <template v-else-if="user.issueState === 2">
+                <v-btn outlined text disabled color="accent"
                   >発行済み
-                </v-btn></v-list-item-action
-              ></template
-            >
+                </v-btn></template
+              >
+            </v-list-item-action>
           </v-list-item>
           <v-divider :key="`divider-${i}`"></v-divider>
         </template>
       </v-list>
       <v-snackbar
-        :timeout="3000"
+        :timeout="1500"
         v-model="qrSendingSnackbar"
         centered
         absolute
         color="primary"
-      >
-        発行オファーメールを送信しました。
+        >発行オファーメールを送信しました。
       </v-snackbar>
     </template>
     <template v-else>
@@ -150,7 +148,7 @@ export default {
       // Search
       userNameKeyword: "",
       // Dialog
-      qrSendingDialog: null,
+      qrSendingDialog: {},
       qrSendingLoader: false,
       qrSendingSnackbar: false,
       // Pagination
@@ -213,7 +211,7 @@ export default {
         params: { patientId: patientId },
       });
     },
-    async sendQRCodeforIssueVC(patient) {
+    async sendOfferMailforIssueVC(patient) {
       // for frontend testing...
       // console.log(patientId);
       // this.qrSendingLoader = true;
@@ -224,8 +222,17 @@ export default {
       // }, 3000);
 
       this.qrSendingLoader = true;
-      await patientsApi.updateIssueState(patient);
-      this.qrSendingDialog = false;
+      for (let user of this.users) {
+        if (user.patientId === patient.patientId) {
+          user.issueState = 1;
+          break;
+        }
+      }
+
+      // await patientsApi.updateIssueState(patient);
+
+      this.qrSendingLoader = false;
+      this.qrSendingDialog[patient.patientId] = false;
       this.qrSendingSnackbar = true;
     },
     // showUserBooks(userId) {
