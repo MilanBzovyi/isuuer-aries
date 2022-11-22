@@ -16,10 +16,6 @@
       "environmentVariableName": "ISSUER_ENDPOINT"
     },
     {
-      "cloudFormationParameterName": "issuerDid",
-      "environmentVariableName": "ISSUER_DID"
-    },
-    {
       "cloudFormationParameterName": "schemaId",
       "environmentVariableName": "SCHEMA_ID"
     },
@@ -34,6 +30,10 @@
     {
       "cloudFormationParameterName": "holderEmailTestAddress",
       "environmentVariableName": "HOLDER_EMAIL_TEST_ADDRESS"
+    },
+    {
+      "cloudFormationParameterName": "issuerDid",
+      "environmentVariableName": "ISSUER_DID"
     }
   ]
 }

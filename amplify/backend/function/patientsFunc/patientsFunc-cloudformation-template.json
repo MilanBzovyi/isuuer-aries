@@ -31,9 +31,6 @@
     "issuerEndpoint": {
       "Type": "String"
     },
-    "issuerDid": {
-      "Type": "String"
-    },
     "schemaId": {
       "Type": "String"
     },
@@ -44,6 +41,9 @@
       "Type": "String"
     },
     "holderEmailTestAddress": {
+      "Type": "String"
+    },
+    "issuerDid": {
       "Type": "String"
     }
   },
@@ -112,9 +112,6 @@
             "ISSUER_ENDPOINT": {
               "Ref": "issuerEndpoint"
             },
-            "ISSUER_DID": {
-              "Ref": "issuerDid"
-            },
             "SCHEMA_ID": {
               "Ref": "schemaId"
             },
@@ -126,6 +123,9 @@
             },
             "HOLDER_EMAIL_TEST_ADDRESS": {
               "Ref": "holderEmailTestAddress"
+            },
+            "ISSUER_DID": {
+              "Ref": "issuerDid"
             }
           }
         },

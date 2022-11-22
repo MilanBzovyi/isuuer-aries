@@ -23,11 +23,11 @@
           "deploymentBucketName": "amplify-healthcheckupissuer-dev-145946-deployment",
           "s3Key": "amplify-builds/patientsFunc-53636178647061563434-build.zip",
           "issuerEndpoint": "http://35.77.39.134:8071",
-          "issuerDid": "did:sov:Vtw2qgmuMVy3rk2ipw7Vxt",
           "schemaId": "Vtw2qgmuMVy3rk2ipw7Vxt:2:health_checkup_result:1.1",
           "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1",
           "issuerEmailTestAddress": "takahiro-kanuma@gmogshd.com",
-          "holderEmailTestAddress": "ringo-onishi@gmogshd.com"
+          "holderEmailTestAddress": "ringo-onishi@gmogshd.com",
+          "issuerDid": "Vtw2qgmuMVy3rk2ipw7Vxt"
         }
       }
     }
