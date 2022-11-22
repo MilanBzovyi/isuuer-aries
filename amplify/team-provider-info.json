@@ -26,8 +26,8 @@
           "schemaId": "Vtw2qgmuMVy3rk2ipw7Vxt:2:health_checkup_result:1.1",
           "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1",
           "issuerEmailTestAddress": "takahiro-kanuma@gmogshd.com",
-          "holderEmailTestAddress": "ringo-onishi@gmogshd.com",
-          "issuerDid": "Vtw2qgmuMVy3rk2ipw7Vxt"
+          "issuerDid": "Vtw2qgmuMVy3rk2ipw7Vxt",
+          "holderEmailTestAddress": "takahiro.kanuma@gmail.com"
         }
       }
     }

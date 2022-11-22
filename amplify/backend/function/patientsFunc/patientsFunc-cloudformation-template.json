@@ -40,10 +40,10 @@
     "issuerEmailTestAddress": {
       "Type": "String"
     },
-    "holderEmailTestAddress": {
+    "issuerDid": {
       "Type": "String"
     },
-    "issuerDid": {
+    "holderEmailTestAddress": {
       "Type": "String"
     }
   },
@@ -121,11 +121,11 @@
             "ISSUER_EMAIL_TEST_ADDRESS": {
               "Ref": "issuerEmailTestAddress"
             },
-            "HOLDER_EMAIL_TEST_ADDRESS": {
-              "Ref": "holderEmailTestAddress"
-            },
             "ISSUER_DID": {
               "Ref": "issuerDid"
+            },
+            "HOLDER_EMAIL_TEST_ADDRESS": {
+              "Ref": "holderEmailTestAddress"
             }
           }
         },

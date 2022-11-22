@@ -221,18 +221,22 @@ export default {
       //   this.qrSendingSnackbar = true;
       // }, 3000);
 
-      this.qrSendingLoader = true;
-      for (let user of this.users) {
-        if (user.patientId === patient.patientId) {
-          user.issueState = 1;
-          break;
-        }
-      }
+      // for (let user of this.users) {
+      //   if (user.patientId === patient.patientId) {
+      //     user.issueState = 1;
+      //     break;
+      //   }
+      // }
 
+      this.qrSendingLoader = true;
       await patientsApi.updateIssueState(patient);
+      console.log("ihihi");
       this.qrSendingLoader = false;
       this.qrSendingDialog[patient.patientId] = false;
       this.qrSendingSnackbar = true;
+
+      this.users = await patientsApi.getPatients();
+      this.filteredUsers = this.users;
     },
     // showUserBooks(userId) {
     //   this.$router.push({ name: "UserBooks", params: { userId: userId } });

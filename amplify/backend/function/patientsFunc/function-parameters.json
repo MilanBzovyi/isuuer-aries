@@ -28,12 +28,12 @@
       "environmentVariableName": "ISSUER_EMAIL_TEST_ADDRESS"
     },
     {
-      "cloudFormationParameterName": "holderEmailTestAddress",
-      "environmentVariableName": "HOLDER_EMAIL_TEST_ADDRESS"
-    },
-    {
       "cloudFormationParameterName": "issuerDid",
       "environmentVariableName": "ISSUER_DID"
+    },
+    {
+      "cloudFormationParameterName": "holderEmailTestAddress",
+      "environmentVariableName": "HOLDER_EMAIL_TEST_ADDRESS"
     }
   ]
 }

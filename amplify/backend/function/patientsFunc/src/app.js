@@ -249,7 +249,6 @@ app.put("/patients/*", async function (req, res) {
       },
     },
   };
-
   await ses.sendEmail(sesParams).promise();
 
   const paramsforUpdate = {
@@ -262,7 +261,6 @@ app.put("/patients/*", async function (req, res) {
       ":s": 1,
     },
   };
-
   try {
     await docClient.update(paramsforUpdate).promise();
   } catch (err) {
