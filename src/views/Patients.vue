@@ -46,7 +46,7 @@
                 <v-dialog v-model="qrSendingDialog" max-width="30%">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn outlined text v-bind="attrs" v-on="on" color="accent"
-                      >証明書発行オファー</v-btn
+                      >証明書発行オファー送信</v-btn
                     >
                   </template>
                   <v-card>
@@ -85,7 +85,7 @@
             <template v-else-if="user.issueState === 1">
               <v-list-item-action
                 ><v-btn outlined text disabled color="accent"
-                  >打診済み
+                  >オファー済み
                 </v-btn></v-list-item-action
               ></template
             >
@@ -107,7 +107,7 @@
         absolute
         color="primary"
       >
-        QRコードを送信しました。
+        発行オファーメールを送信しました。
       </v-snackbar>
     </template>
     <template v-else>
