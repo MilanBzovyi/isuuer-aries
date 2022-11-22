@@ -43,33 +43,35 @@
             </v-list-item-action>
             <template v-if="user.issueState === 0">
               <v-list-item-action>
-                <v-dialog v-model="dialog" max-width="30%">
+                <v-dialog v-model="qrSendingDialog" max-width="30%">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn outlined text v-bind="attrs" v-on="on" color="accent"
                       >証明書発行QR送信</v-btn
                     >
                   </template>
                   <v-card>
-                    <v-card-title lass="text-h2">
+                    <v-card-title class="text-h5 accent white--text">
                       証明書発行QRコード送信
                     </v-card-title>
-                    <v-card-text>QRコードを送信しますか？</v-card-text>
+                    <v-card-text class="mt-3"
+                      >QRコードを送信しますか？</v-card-text
+                    >
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn
                         color="accent"
                         elevation="2"
-                        outlined
                         :loading="qrSendingLoader"
                         @click="sendQRCodeforIssueVC(user.patientId)"
                       >
                         する
                       </v-btn>
                       <v-btn
-                        color="primary"
+                        color="accent"
                         elevation="2"
+                        outlined
                         depressed
-                        @click="dialog = false"
+                        @click="qrSendingDialog = false"
                       >
                         しない
                       </v-btn>
@@ -96,6 +98,15 @@
           <v-divider :key="`divider-${i}`"></v-divider>
         </template>
       </v-list>
+      <v-snackbar
+        :timeout="3000"
+        v-model="qrSendingSnackbar"
+        centered
+        absolute
+        color="primary"
+      >
+        QRコードを送信しました。
+      </v-snackbar>
     </template>
     <template v-else>
       <div class="prog-circ-on-init">
@@ -137,8 +148,9 @@ export default {
       // Search
       userNameKeyword: "",
       // Dialog
-      dialog: null,
+      qrSendingDialog: null,
       qrSendingLoader: false,
+      qrSendingSnackbar: false,
       // Pagination
       paginator: null,
       pagingTakingPlace: false,
@@ -200,9 +212,19 @@ export default {
       });
     },
     async sendQRCodeforIssueVC(patientId) {
+      // for frontend testing...
+      // console.log(patientId);
+      // this.qrSendingLoader = true;
+      // setTimeout(async () => {
+      //   this.qrSendingLoader = false;
+      //   this.qrSendingDialog = false;
+      //   this.qrSendingSnackbar = true;
+      // }, 3000);
+
       this.qrSendingLoader = true;
       await patientsApi.updateIssueState(patientId);
-      this.qrSendingLoader = false;
+      this.qrSendingDialog = false;
+      this.qrSendingSnackbar = true;
     },
     // showUserBooks(userId) {
     //   this.$router.push({ name: "UserBooks", params: { userId: userId } });
