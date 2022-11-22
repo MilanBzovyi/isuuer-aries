@@ -222,11 +222,9 @@ app.put("/patients/*", async function (req, res) {
       throw new Error(createInvitationResponse.statusText);
     }
 
-    // oob=invitationJSON
-    // TODO holder://issue?url=tokenの形にURLを置き換える。
     const invitationURL = createInvitationResponseJson.invitation_url;
     console.log(invitationURL);
-    deepLinkInvitation = invitationURL.split("oob=")[1];
+    deepLinkInvitation = "holder://issue?url=" + invitationURL.split("oob=")[1];
   } catch (error) {
     return res.status(500);
   }
