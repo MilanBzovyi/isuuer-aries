@@ -193,7 +193,7 @@ app.put("/patients/*", async function (req, res) {
       attachments: [
         {
           id: credentialExchangeId,
-          type: "issue-credential",
+          type: "credential-offer",
         },
       ],
       my_label: `${checkupResult.name}さんへのVC発行の打診`,
