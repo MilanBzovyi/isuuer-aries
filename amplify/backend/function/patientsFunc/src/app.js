@@ -224,7 +224,8 @@ app.put("/patients/*", async function (req, res) {
 
     const invitationURL = createInvitationResponseJson.invitation_url;
     console.log(invitationURL);
-    deepLinkInvitation = "holder://issue?url=" + invitationURL.split("oob=")[1];
+    // deepLinkInvitation = "holder://issue?url=" + invitationURL.split("oob=")[1];
+    deepLinkInvitation = invitationURL;
   } catch (error) {
     return res.status(500);
   }
@@ -241,10 +242,10 @@ app.put("/patients/*", async function (req, res) {
       ToAddresses: [process.env.HOLDER_EMAIL_TEST_ADDRESS],
     },
     Message: {
-      Subject: { Data: "健康診断結果証明書発行オファー" },
+      Subject: { Data: "健康診断結果証明書発行オファー(仮)" },
       Body: {
         Text: {
-          Data: `${checkupResult.name}さん\n\n以下のリンクをクリックして健康診断書証明書を発行してください。\n\n${deepLinkInvitation}`,
+          Data: `${checkupResult.name}さん\n\n<a href='${deepLinkInvitation}'>ここ</a>クリックして健康診断書証明書を発行してください。(仮)`,
         },
       },
     },

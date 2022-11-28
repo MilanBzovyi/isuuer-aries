@@ -49,17 +49,17 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn v-bind="attrs" v-on="on" color="accent" outlined text
-                      >証明書発行オファー送信</v-btn
+                      >証明書発行オファー送信(仮)</v-btn
                     >
                   </template>
                   <v-card>
                     <v-card-title class="text-h5 accent white--text">
-                      証明書発行オファーメール送信
+                      証明書発行オファーメール送信(仮)
                     </v-card-title>
                     <v-card-text class="mt-3"
                       >{{
                         user.name
-                      }}さんに発行オファーメールを送信しますか？</v-card-text
+                      }}さんに発行オファーメールを送信しますか？(仮)</v-card-text
                     >
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -86,12 +86,12 @@
               </template>
               <template v-else-if="user.issueState === 1">
                 <v-btn outlined text disabled color="accent"
-                  >オファー済み
+                  >オファー済み(仮)
                 </v-btn>
               </template>
               <template v-else-if="user.issueState === 2">
                 <v-btn outlined text disabled color="accent"
-                  >発行済み
+                  >発行済み(仮)
                 </v-btn></template
               >
             </v-list-item-action>
@@ -105,7 +105,7 @@
         centered
         absolute
         color="primary"
-        >発行オファーメールを送信しました。
+        >発行オファーメールを送信しました。(仮)
       </v-snackbar>
     </template>
     <template v-else>
