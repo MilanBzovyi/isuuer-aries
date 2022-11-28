@@ -244,8 +244,8 @@ app.put("/patients/*", async function (req, res) {
     Message: {
       Subject: { Data: "健康診断結果証明書発行オファー(仮)" },
       Body: {
-        Text: {
-          Data: `${checkupResult.name}さん\n\n<a href='${deepLinkInvitation}'>ここ</a>クリックして健康診断書証明書を発行してください。(仮)`,
+        Html: {
+          Data: `${checkupResult.name}さん\n\n<a href='${deepLinkInvitation}'>ここ</a>をクリックして健康診断書証明書を発行してください。(仮)`,
         },
       },
     },
