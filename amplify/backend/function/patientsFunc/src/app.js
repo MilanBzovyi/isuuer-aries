@@ -225,7 +225,7 @@ app.put("/patients/*", async function (req, res) {
     const invitationURL = createInvitationResponseJson.invitation_url;
     console.log(invitationURL);
     deepLinkInvitation =
-      `http://${process.env.INV_FORWARD_DOMAIN}/issue?token=` +
+      `https://${process.env.INV_FORWARD_DOMAIN}/issue?token=` +
       invitationURL.split("oob=")[1];
     // deepLinkInvitation = invitationURL;
   } catch (error) {
