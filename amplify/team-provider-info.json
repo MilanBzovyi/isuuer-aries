@@ -27,7 +27,8 @@
           "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1",
           "issuerEmailTestAddress": "takahiro-kanuma@gmogshd.com",
           "issuerDid": "Vtw2qgmuMVy3rk2ipw7Vxt",
-          "holderEmailTestAddress": "takahiro.kanuma@gmail.com"
+          "holderEmailTestAddress": "takahiro.kanuma@gmail.com",
+          "invForwardDomain": "master.d5s6mit30xrg6.amplifyapp.com"
         }
       }
     }

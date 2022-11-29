@@ -45,6 +45,9 @@
     },
     "holderEmailTestAddress": {
       "Type": "String"
+    },
+    "invForwardDomain": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -126,6 +129,9 @@
             },
             "HOLDER_EMAIL_TEST_ADDRESS": {
               "Ref": "holderEmailTestAddress"
+            },
+            "INV_FORWARD_DOMAIN": {
+              "Ref": "invForwardDomain"
             }
           }
         },

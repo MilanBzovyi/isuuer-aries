@@ -34,6 +34,10 @@
     {
       "cloudFormationParameterName": "holderEmailTestAddress",
       "environmentVariableName": "HOLDER_EMAIL_TEST_ADDRESS"
+    },
+    {
+      "cloudFormationParameterName": "invForwardDomain",
+      "environmentVariableName": "INV_FORWARD_DOMAIN"
     }
   ]
 }

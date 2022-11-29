@@ -4,6 +4,7 @@ import OnePane from "@/views/template/OnePane.vue";
 import Patients from "@/views/Patients.vue";
 import CheckupResult from "@/views/CheckupResult.vue";
 import ErrorDestination from "@/views/ErrorDestination.vue";
+import InvitaitonForwarding from "@/views/InvitationForwarding.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -31,6 +32,11 @@ const routes = [
     path: "/error",
     name: "ErrorDestination",
     component: ErrorDestination,
+  },
+  {
+    path: "/issue",
+    name: "InvitationForwaring",
+    component: InvitaitonForwarding,
   },
 ];
 
