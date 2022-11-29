@@ -43,10 +43,10 @@
     "issuerDid": {
       "Type": "String"
     },
-    "holderEmailTestAddress": {
+    "invForwardDomain": {
       "Type": "String"
     },
-    "invForwardDomain": {
+    "holderEmailTestAddress": {
       "Type": "String"
     }
   },
@@ -127,11 +127,11 @@
             "ISSUER_DID": {
               "Ref": "issuerDid"
             },
-            "HOLDER_EMAIL_TEST_ADDRESS": {
-              "Ref": "holderEmailTestAddress"
-            },
             "INV_FORWARD_DOMAIN": {
               "Ref": "invForwardDomain"
+            },
+            "HOLDER_EMAIL_TEST_ADDRESS": {
+              "Ref": "holderEmailTestAddress"
             }
           }
         },
