@@ -86,10 +86,15 @@
               </template>
               <template v-else-if="user.issueState === 1">
                 <v-btn outlined text disabled color="accent"
-                  >オファー済み(仮)
+                  >受付済み(仮)
                 </v-btn>
               </template>
               <template v-else-if="user.issueState === 2">
+                <v-btn outlined text disabled color="accent"
+                  >オファー済み(仮)
+                </v-btn>
+              </template>
+              <template v-else-if="user.issueState === 3">
                 <v-btn outlined text disabled color="accent"
                   >発行済み(仮)
                 </v-btn></template

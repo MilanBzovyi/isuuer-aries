@@ -63,7 +63,7 @@ app.post("/topic/issue_credential", async function (req) {
       },
       UpdateExpression: "set issueState = :s",
       ExpressionAttributeValues: {
-        ":s": 2,
+        ":s": 3,
       },
     };
 
