@@ -9,15 +9,27 @@ Amplify Params - DO NOT EDIT */
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
+const AWS = require("aws-sdk");
+const docClient = new AWS.DynamoDB.DocumentClient();
+
 exports.handler = async (event) => {
-    console.log(`EVENT: ${JSON.stringify(event)}`);
-    return {
-        statusCode: 200,
-    //  Uncomment below to enable CORS requests
-    //  headers: {
-    //      "Access-Control-Allow-Origin": "*",
-    //      "Access-Control-Allow-Headers": "*"
-    //  }, 
-        body: JSON.stringify('Hello from Lambda!'),
-    };
+  console.log(`event: ${JSON.stringify(event)}`);
+  const payload = event.responsePayload;
+
+  const paramsforUpdate = {
+    TableName: process.env.STORAGE_PATIENT_NAME,
+    Key: {
+      patientId: payload.patientId,
+    },
+    UpdateExpression: "set issueState = :s",
+    ExpressionAttributeValues: {
+      ":s": 2,
+    },
+  };
+  try {
+    await docClient.update(paramsforUpdate).promise();
+  } catch (err) {
+    console.log(`db updating issueState error: ${err}`);
+    throw Error(err);
+  }
 };

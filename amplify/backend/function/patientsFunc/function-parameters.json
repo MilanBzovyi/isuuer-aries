@@ -12,32 +12,8 @@
   "lambdaLayers": [],
   "environmentVariableList": [
     {
-      "cloudFormationParameterName": "issuerEndpoint",
-      "environmentVariableName": "ISSUER_ENDPOINT"
-    },
-    {
-      "cloudFormationParameterName": "schemaId",
-      "environmentVariableName": "SCHEMA_ID"
-    },
-    {
-      "cloudFormationParameterName": "credDefId",
-      "environmentVariableName": "CRED_DEF_ID"
-    },
-    {
-      "cloudFormationParameterName": "issuerEmailTestAddress",
-      "environmentVariableName": "ISSUER_EMAIL_TEST_ADDRESS"
-    },
-    {
-      "cloudFormationParameterName": "issuerDid",
-      "environmentVariableName": "ISSUER_DID"
-    },
-    {
-      "cloudFormationParameterName": "holderEmailTestAddress",
-      "environmentVariableName": "HOLDER_EMAIL_TEST_ADDRESS"
-    },
-    {
-      "cloudFormationParameterName": "invForwardUrl",
-      "environmentVariableName": "INV_FORWARD_URL"
+      "cloudFormationParameterName": "frontendOrigin",
+      "environmentVariableName": "FRONTEND_ORIGIN"
     }
   ]
 }

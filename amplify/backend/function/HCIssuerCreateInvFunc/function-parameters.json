@@ -1,3 +1,25 @@
 {
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "credDefId",
+      "environmentVariableName": "CRED_DEF_ID"
+    },
+    {
+      "cloudFormationParameterName": "issuerDid",
+      "environmentVariableName": "ISSUER_DID"
+    },
+    {
+      "cloudFormationParameterName": "issuerEndpoint",
+      "environmentVariableName": "ISSUER_ENDPOINT"
+    },
+    {
+      "cloudFormationParameterName": "schemaId",
+      "environmentVariableName": "SCHEMA_ID"
+    },
+    {
+      "cloudFormationParameterName": "invForwardUrl",
+      "environmentVariableName": "INV_FORWARD_URL"
+    }
+  ]
 }

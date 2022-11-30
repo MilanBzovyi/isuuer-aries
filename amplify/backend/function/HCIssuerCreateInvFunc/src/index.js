@@ -1,17 +1,153 @@
+const fetch = require("node-fetch");
 
-
-/**
- * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
- */
 exports.handler = async (event) => {
-    console.log(`EVENT: ${JSON.stringify(event)}`);
-    return {
-        statusCode: 200,
-    //  Uncomment below to enable CORS requests
-    //  headers: {
-    //      "Access-Control-Allow-Origin": "*",
-    //      "Access-Control-Allow-Headers": "*"
-    //  }, 
-        body: JSON.stringify('Hello from Lambda!'),
-    };
+  console.log(`event: ${JSON.stringify(event)}`);
+  const checkupResult = event.responsePayload;
+
+  // Credential Exchange Record生成のEndpoint呼び出し
+  const issueCrdentialBody = {
+    auto_remove: true,
+    comment: `健康診断書VCの発行 / 受診者ID: ${checkupResult.patientId}`,
+    credential_proposal: {
+      "@type": "issue-credential/1.0/credential-preview",
+      attributes: [
+        {
+          name: "patient_id",
+          value: checkupResult.patientId.toString(),
+        },
+        {
+          name: "bmi",
+          value: checkupResult.bmi.toString(),
+        },
+        {
+          name: "eyesight",
+          value: checkupResult.eyesight.toString(),
+        },
+        {
+          name: "hearing",
+          value: checkupResult.hearing.toString(),
+        },
+        {
+          name: "waist",
+          value: checkupResult.waist.toString(),
+        },
+        {
+          name: "blood_pressure",
+          value: checkupResult.bloodPressure,
+        },
+        {
+          name: "vital_capacity",
+          value: checkupResult.vitalCapacity.toString(),
+        },
+        {
+          name: "ua",
+          value: checkupResult.ua.toString(),
+        },
+        {
+          name: "tc",
+          value: checkupResult.tc.toString(),
+        },
+        {
+          name: "tg",
+          value: checkupResult.tg.toString(),
+        },
+        {
+          name: "fpg",
+          value: checkupResult.fpg.toString(),
+        },
+        {
+          name: "rbc",
+          value: checkupResult.rbc.toString(),
+        },
+        {
+          name: "wbc",
+          value: checkupResult.wbc.toString(),
+        },
+        {
+          name: "plt",
+          value: checkupResult.plt.toString(),
+        },
+      ],
+    },
+    issuer_did: `${process.env.ISSUER_DID}`,
+    schema_id: `${process.env.SCHEMA_ID}`,
+    cred_def_id: `${process.env.CRED_DEF_ID}`,
+    trace: true,
+  };
+
+  const issueCredentialResponse = await fetch(
+    `${process.env.ISSUER_ENDPOINT}/issue-credential/create`,
+    {
+      cache: "no-cache",
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(issueCrdentialBody),
+    }
+  );
+
+  let issueCredentialResJson = null;
+  if (issueCredentialResponse.ok) {
+    issueCredentialResJson = await issueCredentialResponse.json();
+    console.log(JSON.stringify(issueCredentialResJson));
+  } else {
+    const message = "Error on calling aca-py's issue-credential/create";
+    console.error(`${message}: ${issueCredentialResponse.statusText}`);
+    throw Error({
+      matter: message,
+      reason: issueCredentialResponse.statusText,
+    });
+  }
+  const credentialExchangeId = issueCredentialResJson.credential_exchange_id;
+  console.log("Credential Exchange ID", credentialExchangeId);
+
+  // Invitation生成のEndpoint呼び出し
+  const createInvitationReqBody = {
+    attachments: [
+      {
+        id: credentialExchangeId,
+        type: "credential-offer",
+      },
+    ],
+    my_label: `${checkupResult.name}さんへのVC発行オファー`,
+  };
+  const createInvitationResponse = await fetch(
+    `${process.env.ISSUER_ENDPOINT}/out-of-band/create-invitation`,
+    {
+      cache: "no-cache",
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(createInvitationReqBody),
+    }
+  );
+
+  let createInvitationResponseJson = null;
+  if (createInvitationResponse.ok) {
+    createInvitationResponseJson = await createInvitationResponse.json();
+  } else {
+    const message = "Error on calling aca-py's out-of-band/create-invitation";
+    console.error(`${message}: ${createInvitationResponse.statusText}`);
+    throw new Error({
+      matter: message,
+      reason: createInvitationResponse.statusText,
+    });
+  }
+
+  const invitationURL = createInvitationResponseJson.invitation_url;
+  console.log("invitationURL", invitationURL);
+
+  const deepLinkInvitation =
+    process.env.INV_FORWARD_URL + invitationURL.split("oob=")[1];
+  console.log("deepLinkInvitationURL", deepLinkInvitation);
+
+  return {
+    patientId: checkupResult.patientId,
+    patientName: checkupResult.name,
+    invitation: deepLinkInvitation,
+  };
 };

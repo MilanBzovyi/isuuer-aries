@@ -18,8 +18,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const AWS = require("aws-sdk");
-const fetch = require("node-fetch");
-const ses = new AWS.SES({ region: "ap-northeast-1" });
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 // declare a new express app
@@ -29,7 +27,9 @@ app.use(awsServerlessExpressMiddleware.eventContext());
 
 // Enable CORS for all methods
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  // TODO これがAPI Gatewayに反映されるか確認する（されないのであれば、自分で設定する。）
+  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_ORIGIN);
+  // res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
@@ -85,173 +85,8 @@ app.get("/patients/*", async function (req, res) {
 // });
 
 app.put("/patients/*", async function (req, res) {
-  // TODO 3つの処理を非同期にする。
-  // 詳細: リクエスト受付 -> DBリードからACA-PY叩く -> メール送信 -> DB更新(issueState)
-
   console.log(req.body);
   const checkupResult = req.body;
-  const issueCrdentialBody = {
-    auto_remove: true,
-    comment: `健康診断書VCの発行 / 受診者ID: ${checkupResult.patientId}`,
-    credential_proposal: {
-      "@type": "issue-credential/1.0/credential-preview",
-      attributes: [
-        {
-          name: "patient_id",
-          value: checkupResult.patientId.toString(),
-        },
-        {
-          name: "bmi",
-          value: checkupResult.bmi.toString(),
-        },
-        {
-          name: "eyesight",
-          value: checkupResult.eyesight.toString(),
-        },
-        {
-          name: "hearing",
-          value: checkupResult.hearing.toString(),
-        },
-        {
-          name: "waist",
-          value: checkupResult.waist.toString(),
-        },
-        {
-          name: "blood_pressure",
-          value: checkupResult.bloodPressure,
-        },
-        {
-          name: "vital_capacity",
-          value: checkupResult.vitalCapacity.toString(),
-        },
-        {
-          name: "ua",
-          value: checkupResult.ua.toString(),
-        },
-        {
-          name: "tc",
-          value: checkupResult.tc.toString(),
-        },
-        {
-          name: "tg",
-          value: checkupResult.tg.toString(),
-        },
-        {
-          name: "fpg",
-          value: checkupResult.fpg.toString(),
-        },
-        {
-          name: "rbc",
-          value: checkupResult.rbc.toString(),
-        },
-        {
-          name: "wbc",
-          value: checkupResult.wbc.toString(),
-        },
-        {
-          name: "plt",
-          value: checkupResult.plt.toString(),
-        },
-      ],
-    },
-    issuer_did: `${process.env.ISSUER_DID}`,
-    schema_id: `${process.env.SCHEMA_ID}`,
-    cred_def_id: `${process.env.CRED_DEF_ID}`,
-    trace: true,
-  };
-
-  let deepLinkInvitation = "";
-  try {
-    const issueCredentialResponse = await fetch(
-      `${process.env.ISSUER_ENDPOINT}/issue-credential/create`,
-      {
-        cache: "no-cache",
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(issueCrdentialBody),
-      }
-    );
-
-    let issueCredentialResJson = null;
-    if (issueCredentialResponse.ok) {
-      issueCredentialResJson = await issueCredentialResponse.json();
-      console.log(issueCredentialResJson);
-    } else {
-      console.error(
-        `on calling aca-py's issue-credential/create: ${issueCredentialResponse.statusText}`
-      );
-      throw Error(issueCredentialResponse.statusText);
-    }
-
-    const credentialExchangeId = issueCredentialResJson.credential_exchange_id;
-    console.log(credentialExchangeId);
-
-    const createInvitationReqBody = {
-      attachments: [
-        {
-          id: credentialExchangeId,
-          type: "credential-offer",
-        },
-      ],
-      my_label: `${checkupResult.name}さんへのVC発行オファー`,
-    };
-    const createInvitationResponse = await fetch(
-      `${process.env.ISSUER_ENDPOINT}/out-of-band/create-invitation`,
-      {
-        cache: "no-cache",
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(createInvitationReqBody),
-      }
-    );
-
-    let createInvitationResponseJson = null;
-    if (createInvitationResponse.ok) {
-      createInvitationResponseJson = await createInvitationResponse.json();
-      console.log(createInvitationResponseJson);
-    } else {
-      console.error(
-        `on calling aca-py's out-of-band/create-invitation: ${createInvitationResponse.statusText}`
-      );
-      throw new Error(createInvitationResponse.statusText);
-    }
-
-    const invitationURL = createInvitationResponseJson.invitation_url;
-    console.log(invitationURL);
-    deepLinkInvitation =
-      process.env.INV_FORWARD_URL + invitationURL.split("oob=")[1];
-    // deepLinkInvitation = invitationURL;
-  } catch (error) {
-    return res.status(500);
-  }
-
-  // const snsParams = {
-  //   TopicArn: process.env.SNS_TOPIC_ARN,
-  //   Subject: "健康診断結果証明書発行オファー",
-  //   Message: `${checkupResult.name}さん\n\n以下のリンクをクリックして健康診断書証明書を発行してください。\n\n${invitationURL}`,
-  // };
-  // await sns.publish(snsParams).promise();
-  const sesParams = {
-    Source: process.env.ISSUER_EMAIL_TEST_ADDRESS,
-    Destination: {
-      ToAddresses: [process.env.HOLDER_EMAIL_TEST_ADDRESS],
-    },
-    Message: {
-      Subject: { Data: "健康診断結果証明書発行オファー(仮)" },
-      Body: {
-        Html: {
-          Data: `${checkupResult.name}さん</br> <a href='${deepLinkInvitation}'>ここ</a>をクリックして健康診断書証明書を発行してください。(仮)`,
-        },
-      },
-    },
-  };
-  await ses.sendEmail(sesParams).promise();
 
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
@@ -265,12 +100,12 @@ app.put("/patients/*", async function (req, res) {
   };
   try {
     await docClient.update(paramsforUpdate).promise();
+    // TODO ここでSQSにcheckupResultを突っ込む。
+    return res.status(200);
   } catch (err) {
     console.log(`db updating issueState error: ${err}`);
     return res.status(500).json({ error: err });
   }
-
-  return res.status(200);
 });
 
 /****************************

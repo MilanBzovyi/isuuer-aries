@@ -28,25 +28,7 @@
       "Type": "String",
       "Default": "storagepatientStreamArn"
     },
-    "issuerEndpoint": {
-      "Type": "String"
-    },
-    "schemaId": {
-      "Type": "String"
-    },
-    "credDefId": {
-      "Type": "String"
-    },
-    "issuerEmailTestAddress": {
-      "Type": "String"
-    },
-    "issuerDid": {
-      "Type": "String"
-    },
-    "holderEmailTestAddress": {
-      "Type": "String"
-    },
-    "invForwardUrl": {
+    "frontendOrigin": {
       "Type": "String"
     }
   },
@@ -112,26 +94,8 @@
             "STORAGE_PATIENT_STREAMARN": {
               "Ref": "storagepatientStreamArn"
             },
-            "ISSUER_ENDPOINT": {
-              "Ref": "issuerEndpoint"
-            },
-            "SCHEMA_ID": {
-              "Ref": "schemaId"
-            },
-            "CRED_DEF_ID": {
-              "Ref": "credDefId"
-            },
-            "ISSUER_EMAIL_TEST_ADDRESS": {
-              "Ref": "issuerEmailTestAddress"
-            },
-            "ISSUER_DID": {
-              "Ref": "issuerDid"
-            },
-            "HOLDER_EMAIL_TEST_ADDRESS": {
-              "Ref": "holderEmailTestAddress"
-            },
-            "INV_FORWARD_URL": {
-              "Ref": "invForwardUrl"
+            "FRONTEND_ORIGIN": {
+              "Ref": "frontendOrigin"
             }
           }
         },
