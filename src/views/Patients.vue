@@ -105,7 +105,7 @@
         </template>
       </v-list>
       <v-snackbar
-        :timeout="1500"
+        :timeout="2000"
         v-model="qrSendingSnackbar"
         centered
         absolute
