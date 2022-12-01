@@ -30,6 +30,9 @@
     },
     "frontendOrigin": {
       "Type": "String"
+    },
+    "queueUrl": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -96,6 +99,9 @@
             },
             "FRONTEND_ORIGIN": {
               "Ref": "frontendOrigin"
+            },
+            "QUEUE_URL": {
+              "Ref": "queueUrl"
             }
           }
         },

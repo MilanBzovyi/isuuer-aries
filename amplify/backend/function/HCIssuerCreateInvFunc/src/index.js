@@ -2,7 +2,8 @@ const fetch = require("node-fetch");
 
 exports.handler = async (event) => {
   console.log(`event: ${JSON.stringify(event)}`);
-  const checkupResult = event.responsePayload;
+  const checkupResult = event.Records[0];
+  console.log(checkupResult);
 
   // Credential Exchange Record生成のEndpoint呼び出し
   const issueCrdentialBody = {

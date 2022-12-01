@@ -22,7 +22,8 @@
         "patientsFunc": {
           "deploymentBucketName": "amplify-healthcheckupissuer-dev-145946-deployment",
           "s3Key": "amplify-builds/patientsFunc-53636178647061563434-build.zip",
-          "frontendOrigin": "https://master.d5s6mit30xrg6.amplifyapp.com"
+          "frontendOrigin": "https://master.d5s6mit30xrg6.amplifyapp.com",
+          "queueUrl": "https://sqs.ap-northeast-1.amazonaws.com/991005209332/health-checkup-reception-queue"
         },
         "HCIssuerCreateInvFunc": {
           "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1",

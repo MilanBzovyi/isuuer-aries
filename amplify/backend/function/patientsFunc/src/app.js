@@ -27,9 +27,8 @@ app.use(awsServerlessExpressMiddleware.eventContext());
 
 // Enable CORS for all methods
 app.use(function (req, res, next) {
-  // TODO これがAPI Gatewayに反映されるか確認する（されないのであれば、自分で設定する。）
-  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_ORIGIN);
-  // res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Origin", process.env.FRONTEND_ORIGIN);
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
@@ -84,6 +83,7 @@ app.get("/patients/*", async function (req, res) {
 //   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 // });
 
+const sqs = new AWS.SQS();
 app.put("/patients/*", async function (req, res) {
   console.log(req.body);
   const checkupResult = req.body;
@@ -99,13 +99,27 @@ app.put("/patients/*", async function (req, res) {
     },
   };
   try {
-    await docClient.update(paramsforUpdate).promise();
-    // TODO ここでSQSにcheckupResultを突っ込む。
-    return res.status(200).json({ message: "success" });
+    const docResp = await docClient.update(paramsforUpdate).promise();
+    console.log(JSON.stringify(docResp));
   } catch (err) {
     console.log(`db updating issueState error: ${err}`);
-    return res.status(500).json({ error: err });
+    return res.status(500).json({ message: "server error" });
   }
+
+  try {
+    const sqsParams = {
+      MessageBody: JSON.stringify(checkupResult),
+      QueueUrl: process.env.QUEUE_URL,
+    };
+
+    const sqsResp = await sqs.sendMessage(sqsParams).promise();
+    console.log(JSON.stringify(sqsResp));
+  } catch (err) {
+    console.log(`error on sending message to sqs: ${err}`);
+    return res.status(500).json({ message: "server error" });
+  }
+
+  return res.status(200).json({ message: "success" });
 });
 
 /****************************

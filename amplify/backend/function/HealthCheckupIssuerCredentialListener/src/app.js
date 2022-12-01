@@ -56,6 +56,7 @@ app.post("/topic/issue_credential", async function (req) {
   const state = req.body.state;
   console.log(`state: ${state}`);
   if (state === "done") {
+    // TODO issueDateも更新する。
     const params = {
       TableName: process.env.STORAGE_PATIENT_NAME,
       Key: {
