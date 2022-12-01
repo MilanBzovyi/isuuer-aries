@@ -101,7 +101,7 @@ app.put("/patients/*", async function (req, res) {
   try {
     await docClient.update(paramsforUpdate).promise();
     // TODO ここでSQSにcheckupResultを突っ込む。
-    return res.status(200);
+    return res.status(200).json({ message: "success" });
   } catch (err) {
     console.log(`db updating issueState error: ${err}`);
     return res.status(500).json({ error: err });

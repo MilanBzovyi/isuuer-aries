@@ -110,7 +110,7 @@
         centered
         absolute
         color="primary"
-        >発行オファーメールを送信しました。(仮)
+        >発行オファー送信を受付ました。(仮)
       </v-snackbar>
     </template>
     <template v-else>
