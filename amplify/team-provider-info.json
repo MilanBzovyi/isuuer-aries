@@ -30,7 +30,8 @@
           "issuerDid": "Vtw2qgmuMVy3rk2ipw7Vxt",
           "issuerEndpoint": "http://35.77.39.134:8071",
           "schemaId": "Vtw2qgmuMVy3rk2ipw7Vxt:2:health_checkup_result:1.1",
-          "invForwardUrl": "https://153.122.173.14/issue.html?url="
+          "invForwardUrl": "https://153.122.173.14/issue.html?url=",
+          "queueUrl": "https://sqs.ap-northeast-1.amazonaws.com/991005209332/health-checkup-reception-send-inv-queue"
         },
         "HCIssuerSendInvMailFunc": {
           "issuerEmailTestAddress": "takahiro-kanuma@gmogshd.com",

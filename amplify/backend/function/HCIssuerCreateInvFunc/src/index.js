@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
 
+const AWS = require("aws-sdk");
+const sqs = new AWS.SQS();
 exports.handler = async (event) => {
   console.log(`event: ${JSON.stringify(event)}`);
   const checkupResult = JSON.parse(event.Records[0].body);
@@ -146,9 +148,20 @@ exports.handler = async (event) => {
     process.env.INV_FORWARD_URL + invitationURL.split("oob=")[1];
   console.log("deepLinkInvitationURL", deepLinkInvitation);
 
-  return {
-    patientId: checkupResult.patientId,
-    patientName: checkupResult.name,
-    invitation: deepLinkInvitation,
-  };
+  try {
+    const sqsParams = {
+      MessageBody: JSON.stringify({
+        patientId: checkupResult.patientId,
+        patientName: checkupResult.name,
+        invitation: deepLinkInvitation,
+      }),
+      QueueUrl: process.env.QUEUE_URL,
+    };
+
+    const sqsResp = await sqs.sendMessage(sqsParams).promise();
+    console.log(JSON.stringify(sqsResp));
+  } catch (err) {
+    console.log(`error on sending message to sqs: ${err}`);
+    throw Error(err);
+  }
 };

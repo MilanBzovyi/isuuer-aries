@@ -20,6 +20,10 @@
     {
       "cloudFormationParameterName": "invForwardUrl",
       "environmentVariableName": "INV_FORWARD_URL"
+    },
+    {
+      "cloudFormationParameterName": "queueUrl",
+      "environmentVariableName": "QUEUE_URL"
     }
   ]
 }

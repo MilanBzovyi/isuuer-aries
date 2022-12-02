@@ -30,6 +30,9 @@
     },
     "invForwardUrl": {
       "Type": "String"
+    },
+    "queueUrl": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -99,6 +102,9 @@
             },
             "INV_FORWARD_URL": {
               "Ref": "invForwardUrl"
+            },
+            "QUEUE_URL": {
+              "Ref": "queueUrl"
             }
           }
         },
