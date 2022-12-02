@@ -100,6 +100,7 @@ app.put("/patients/*", async function (req, res) {
   };
   try {
     const docResp = await docClient.update(paramsforUpdate).promise();
+    checkupResult.issueState = 1;
     console.log(JSON.stringify(docResp));
   } catch (err) {
     console.log(`db updating issueState error: ${err}`);
