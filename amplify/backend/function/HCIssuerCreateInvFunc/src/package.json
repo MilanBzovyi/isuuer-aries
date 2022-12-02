@@ -8,6 +8,6 @@
     "@types/aws-lambda": "^8.10.92"
   },
   "dependencies": {
-    "node-fetch": "^3.3.0"
+    "node-fetch2": "^1.6.3"
   }
 }
