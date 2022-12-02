@@ -161,6 +161,8 @@ exports.handler = async (event) => {
     const sqsResp = await sqs.sendMessage(sqsParams).promise();
     console.log(JSON.stringify(sqsResp));
   } catch (err) {
+    // TODO throw Errorするとメッセージがキュー上から消費されず、永遠と同じことを繰り返してしまう。
+    // TODO return {}するとそれは起きないけど、正常にメッセージが消費されて消える。
     console.log(`error on sending message to sqs: ${err}`);
     throw Error(err);
   }

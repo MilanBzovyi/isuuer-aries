@@ -1,3 +1,10 @@
+/* Amplify Params - DO NOT EDIT
+	ENV
+	REGION
+	STORAGE_PATIENT_ARN
+	STORAGE_PATIENT_NAME
+	STORAGE_PATIENT_STREAMARN
+Amplify Params - DO NOT EDIT */
 const AWS = require("aws-sdk");
 const ses = new AWS.SES({ region: process.env.REGION });
 const docClient = new AWS.DynamoDB.DocumentClient();
@@ -26,6 +33,8 @@ exports.handler = async (event) => {
     console.log(JSON.stringify(sesResp));
   } catch (err) {
     console.log(`error on sending invitation email to holder: ${err}`);
+    // TODO throw Errorするとメッセージがキュー上から消費されず、永遠と同じことを繰り返してしまう。
+    // TODO return {}するとそれは起きないけど、正常にメッセージが消費されて消える。
     throw Error(err);
   }
 
@@ -45,6 +54,8 @@ exports.handler = async (event) => {
     const docResp = await docClient.update(paramsforUpdate).promise();
     console.log(JSON.stringify(docResp));
   } catch (err) {
+    // TODO throw Errorするとメッセージがキュー上から消費されず、永遠と同じことを繰り返してしまう。
+    // TODO return {}するとそれは起きないけど、正常にメッセージが消費されて消える。
     console.log(`db updating issueState error: ${err}`);
     throw Error(err);
   }

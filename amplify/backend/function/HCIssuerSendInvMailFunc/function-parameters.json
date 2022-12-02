@@ -9,5 +9,15 @@
       "cloudFormationParameterName": "holderEmailTestAddress",
       "environmentVariableName": "HOLDER_EMAIL_TEST_ADDRESS"
     }
-  ]
+  ],
+  "permissions": {
+    "storage": {
+      "patient": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
 }
