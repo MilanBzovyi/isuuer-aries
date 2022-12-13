@@ -116,7 +116,7 @@ exports.handler = async (event) => {
     ],
     my_label: `${checkupResult.name}さんへのVC発行オファー`,
     handshake_protocols: [
-      "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/didexchange/1.0",
+      "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/connections/1.0",
     ],
   };
   const createInvitationResponse = await fetch(
