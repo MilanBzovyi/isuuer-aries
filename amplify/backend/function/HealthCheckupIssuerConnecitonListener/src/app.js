@@ -44,8 +44,9 @@ app.use(function (req, res, next) {
 //   res.json({ success: "get call succeed!", url: req.url });
 // });
 
-app.post("/topic/connections", function (req) {
+app.post("/topic/connections", function (req, res) {
   console.log(req.body);
+  return res.status(200).json("success");
   // res.json({ success: "post call succeed!", url: req.url, body: req.body });
 });
 

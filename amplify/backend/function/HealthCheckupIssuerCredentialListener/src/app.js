@@ -50,7 +50,7 @@ app.use(function (req, res, next) {
 
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
-app.post("/topic/issue_credential", async function (req) {
+app.post("/topic/issue_credential", async function (req, res) {
   // res.json({ success: "post call succeed!", url: req.url, body: req.body });
 
   const state = req.body.state;
@@ -70,8 +70,10 @@ app.post("/topic/issue_credential", async function (req) {
 
     try {
       await docClient.update(params).promise();
+      return res.status(200).json("success");
     } catch (err) {
       console.log(`db update error: ${err}`);
+      return res.status(500).json({ error: err });
     }
   }
 });
