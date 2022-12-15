@@ -61,8 +61,6 @@ app.get("/patients/*", async function (req, res) {
   } catch (err) {
     res.status(500).json({ error: err });
   }
-
-  // res.json({ success: "get call succeed!", url: req.url });
 });
 
 /****************************
