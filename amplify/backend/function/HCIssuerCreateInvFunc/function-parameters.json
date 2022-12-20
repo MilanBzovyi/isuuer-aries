@@ -25,5 +25,15 @@
       "cloudFormationParameterName": "queueUrl",
       "environmentVariableName": "QUEUE_URL"
     }
-  ]
+  ],
+  "permissions": {
+    "storage": {
+      "patient": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
 }
