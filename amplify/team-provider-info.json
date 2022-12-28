@@ -36,6 +36,9 @@
         "HCIssuerSendInvMailFunc": {
           "issuerEmailTestAddress": "takahiro-kanuma@gmogshd.com",
           "holderEmailTestAddress": "ringo-onishi@gmogshd.com"
+        },
+        "HealthCheckupIssuerConnecitonListener": {
+          "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1"
         }
       }
     }

@@ -22,6 +22,8 @@ const awsServerlessExpressMiddleware = require("aws-serverless-express/middlewar
 const app = express();
 app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());
+const AWS = require("aws-sdk");
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 // Enable CORS for all methods
 app.use(function (req, res, next) {
@@ -30,64 +32,133 @@ app.use(function (req, res, next) {
   next();
 });
 
-/**********************
- * Example get method *
- **********************/
+app.post("/topic/connections", async function (req, res) {
+  const body = req.body;
+  const connectionId = body.connection_id;
+  console.log(body.status);
+  if (body.status === "active") {
+    console.log(`connection is now active: ${connectionId}`);
+  } else {
+    return res
+      .status(200)
+      .json(`connection is not active yet: ${connectionId}`);
+  }
 
-// app.get("/topic/connections", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "get call succeed!", url: req.url });
-// });
+  // DBからClaimの取得
+  const params = {
+    ExpressionAttributeValues: {
+      ":connectionId": connectionId,
+    },
+    KeyConditionExpression: "connectionId = :connectionId",
+    TableName: process.env.STORAGE_PATIENT_NAME,
+  };
 
-// app.get("/topic/connections/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "get call succeed!", url: req.url });
-// });
+  let checkupResult = null;
+  try {
+    checkupResult = await docClient.query(params).promise();
+  } catch (err) {
+    console.log("error on retrieving patient data.", err);
+    res.status(500).json({ error: err });
+  }
 
-app.post("/topic/connections", function (req, res) {
-  console.log(req.body);
-  return res.status(200).json("success");
-  // res.json({ success: "post call succeed!", url: req.url, body: req.body });
+  const offerReqBody = {
+    auto_remove: false,
+    auto_issue: true,
+    comment: `vc issue offer to a patient: ${checkupResult.name}`,
+    connection_id: connectionId,
+    cred_def_id: process.env.CRED_DEF_ID,
+    credential_preview: {
+      "@type":
+        "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
+      attributes: [
+        {
+          name: "patient_id",
+          value: checkupResult.patientId,
+        },
+        {
+          name: "bmi",
+          value: checkupResult.bmi,
+        },
+        {
+          name: "eyesight",
+          value: checkupResult.eyesight,
+        },
+        {
+          name: "hearing",
+          value: checkupResult.hearing,
+        },
+        {
+          name: "waist",
+          value: checkupResult.waist,
+        },
+        {
+          name: "blood_pressure",
+          value: checkupResult.bloodPressure,
+        },
+        {
+          name: "vital_capacity",
+          value: checkupResult.vitalCapacity,
+        },
+        {
+          name: "ua",
+          value: checkupResult.ua,
+        },
+        {
+          name: "tc",
+          value: checkupResult.tc,
+        },
+        {
+          name: "tg",
+          value: checkupResult.tg,
+        },
+        {
+          name: "fpg",
+          value: checkupResult.fpg,
+        },
+        {
+          name: "rbc",
+          value: checkupResult.rbc,
+        },
+        {
+          name: "wbc",
+          value: checkupResult.wbc,
+        },
+        {
+          name: "plt",
+          value: checkupResult.plt,
+        },
+      ],
+    },
+    trace: true,
+  };
+
+  const offerResponse = await fetch(
+    `${process.env.ISSUER_ENDPOINT}/issue_crednetial/send-offer`,
+    {
+      cache: "no-cache",
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(offerReqBody),
+    }
+  );
+
+  let offerResponseJson = null;
+  if (offerResponse.ok) {
+    offerResponseJson = await offerResponse.json();
+    console.log("offerResponse:", JSON.stringify(offerResponseJson));
+  } else {
+    const message = "Error on calling aca-py's connections/create-invitation";
+    console.error(`${message}: ${offerResponse.statusText}`);
+    throw new Error({
+      matter: message,
+      reason: offerResponse.statusText,
+    });
+  }
+
+  return res.status(200).json("Connection listener succeeded.");
 });
 
-// app.post("/topic/connections/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "post call succeed!", url: req.url, body: req.body });
-// });
-
-/****************************
- * Example put method *
- ****************************/
-
-// app.put("/topic/connections", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "put call succeed!", url: req.url, body: req.body });
-// });
-
-// app.put("/topic/connections/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "put call succeed!", url: req.url, body: req.body });
-// });
-
-/****************************
- * Example delete method *
- ****************************/
-
-// app.delete("/topic/connections", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "delete call succeed!", url: req.url });
-// });
-
-// app.delete("/topic/connections/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "delete call succeed!", url: req.url });
-// });
-
-// app.listen(3000, function () {
-//   console.log("App started");
-// });
-
-// Export the app object. When executing the application local this does nothing. However,
-// to port it to AWS Lambda we will create a wrapper around that will load the app from
-// this file
 module.exports = app;
