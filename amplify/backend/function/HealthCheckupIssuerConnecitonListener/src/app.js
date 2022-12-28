@@ -32,6 +32,9 @@ app.use(function (req, res, next) {
   next();
 });
 
+/**
+ * Connectionを作ったら、発行オファーを送る。
+ */
 app.post("/topic/connections", async function (req, res) {
   const body = req.body;
   const connectionId = body.connection_id;
