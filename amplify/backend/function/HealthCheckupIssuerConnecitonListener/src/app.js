@@ -136,7 +136,7 @@ app.post("/topic/connections", async function (req, res) {
   };
 
   const offerResponse = await fetch(
-    `${process.env.ISSUER_ENDPOINT}/issue_crednetial/send-offer`,
+    `${process.env.ISSUER_ENDPOINT}/issue_credential/send-offer`,
     {
       cache: "no-cache",
       method: "POST",
@@ -153,7 +153,7 @@ app.post("/topic/connections", async function (req, res) {
     offerResponseJson = await offerResponse.json();
     console.log("offerResponse:", JSON.stringify(offerResponseJson));
   } else {
-    const message = "Error on calling aca-py's connections/create-invitation";
+    const message = "Error on calling aca-py's issue_crednetial/send-offer";
     console.error(`${message}: ${offerResponse.statusText}`);
     throw new Error({
       matter: message,
