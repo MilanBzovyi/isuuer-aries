@@ -52,7 +52,7 @@ exports.handler = async (event) => {
 
   // applicant idを元にconnection idをDBに保管する。
   const patientId = data.patientId;
-  const connectionId = createInvitationResponseJson.connectionId;
+  const connectionId = createInvitationResponseJson.connection_id;
 
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
