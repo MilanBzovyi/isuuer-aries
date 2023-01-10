@@ -51,20 +51,19 @@ app.use(function (req, res, next) {
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 app.post("/topic/issue_credential", async function (req, res) {
-  // res.json({ success: "post call succeed!", url: req.url, body: req.body });
-
   const state = req.body.state;
   console.log(`state: ${state}`);
+
   if (state === "done") {
-    // TODO issueDateも更新する。
     const params = {
       TableName: process.env.STORAGE_PATIENT_NAME,
       Key: {
         patientId: req.body.patientId,
       },
-      UpdateExpression: "set issueState = :s",
+      UpdateExpression: "set issueState = :s and issuedDate = :d",
       ExpressionAttributeValues: {
         ":s": 3,
+        ":d": new Date().getTime(),
       },
     };
 

@@ -27,7 +27,7 @@
               <v-list-item-subtitle
                 >受診日:
                 {{
-                  new Date(user.checkedupDate * 1000).toLocaleDateString()
+                  new Date(user.checkedupDate).toLocaleDateString()
                 }}</v-list-item-subtitle
               >
             </v-list-item-content>
@@ -266,11 +266,5 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* TODO hoveredのclass共通化 */
-.on-avator-hovered {
-  opacity: 0.7;
-  cursor: pointer;
 }
 </style>

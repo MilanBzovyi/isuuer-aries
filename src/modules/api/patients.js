@@ -98,7 +98,7 @@ export const changeCheckupResultLabel = (checkupResultRaw) => {
   delete checkupResultRaw.mailAddress;
 
   checkupResultRaw["受診日"] = new Date(
-    checkupResultRaw.checkedupDate * 1000
+    checkupResultRaw.checkedupDate
   ).toLocaleDateString();
   delete checkupResultRaw.checkedupDate;
 
@@ -119,7 +119,7 @@ export const changeCheckupResultLabel = (checkupResultRaw) => {
     checkupResultRaw["証明書発行日"] = null;
   } else {
     checkupResultRaw["証明書発行日"] = new Date(
-      checkupResultRaw.checkedupDate * 1000
+      checkupResultRaw.checkedupDate
     ).toLocaleDateString();
   }
   delete checkupResultRaw.issuedDate;

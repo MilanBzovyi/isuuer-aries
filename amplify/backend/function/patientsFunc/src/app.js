@@ -85,6 +85,7 @@ const sqs = new AWS.SQS();
 app.put("/patients/*", async function (req, res) {
   console.log(req.body);
   // TODO クライアントからのデータを使わずに、IDを元にDBから引っ張ってくる。
+  // （今後このプロトタイプが進展するようであれば直す。）
   const checkupResult = req.body;
 
   const paramsforUpdate = {
