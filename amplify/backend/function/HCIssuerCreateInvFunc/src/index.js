@@ -23,7 +23,7 @@ exports.handler = async (event) => {
   };
 
   const createInvitationResponse = await fetch(
-    `${process.env.VERIFIER_ENDPOINT}/connections/create-invitation`,
+    `${process.env.ISSUER_ENDPOINT}/connections/create-invitation`,
     {
       cache: "no-cache",
       method: "POST",
