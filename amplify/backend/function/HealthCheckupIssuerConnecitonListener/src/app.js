@@ -22,6 +22,7 @@ const awsServerlessExpressMiddleware = require("aws-serverless-express/middlewar
 const app = express();
 app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());
+const fetch = require("node-fetch");
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
