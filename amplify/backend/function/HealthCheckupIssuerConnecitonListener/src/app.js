@@ -36,7 +36,7 @@ app.use(function (req, res, next) {
  * Connectionを作ったら、発行オファーを送る。
  */
 app.post("/topic/connections", async function (req, res) {
-  const body = JSON.parse(req.body);
+  const body = req.body;
   console.log(body);
 
   const connectionId = body.connection_id;
