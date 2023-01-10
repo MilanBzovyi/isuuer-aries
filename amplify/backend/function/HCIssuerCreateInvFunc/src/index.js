@@ -52,7 +52,7 @@ exports.handler = async (event) => {
 
   // applicant idを元にconnection idをDBに保管する。
   const patientId = data.patientId;
-  const connectionId = createInvitationResponseJson.connection_id;
+  const connectionId = createInvitationResponseJson.connectionId;
 
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
@@ -72,7 +72,16 @@ exports.handler = async (event) => {
     console.log(`db updating issueState error: ${err}`);
     // TODO throw Errorするとメッセージがキュー上から消費されず、永遠と同じことを繰り返してしまう。
     // TODO return {}するとそれは起きないけど、正常にメッセージが消費されて消える。
-    throw Error(err);
+    // throw Error(err);
+    return {
+      statusCode: 500,
+      //  Uncomment below to enable CORS requests
+      //  headers: {
+      //      "Access-Control-Allow-Origin": "*",
+      //      "Access-Control-Allow-Headers": "*"
+      //  },
+      body: JSON.stringify("foobarbaz"),
+    };
   }
 
   // DEEP LINKを作り、QueueにInvitationを投げる。
