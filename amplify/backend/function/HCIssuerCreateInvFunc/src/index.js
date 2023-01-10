@@ -52,7 +52,7 @@ exports.handler = async (event) => {
 
   // applicant idを元にconnection idをDBに保管する。
   const patientId = data.patientId;
-  const connectionId = createInvitationResponseJson.connectionId;
+  const connectionId = createInvitationResponseJson.connection_id;
 
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
@@ -70,18 +70,7 @@ exports.handler = async (event) => {
     console.log(JSON.stringify(docResp));
   } catch (err) {
     console.log(`db updating issueState error: ${err}`);
-    // TODO throw Errorするとメッセージがキュー上から消費されず、永遠と同じことを繰り返してしまう。
-    // TODO return {}するとそれは起きないけど、正常にメッセージが消費されて消える。
-    // throw Error(err);
-    return {
-      statusCode: 500,
-      //  Uncomment below to enable CORS requests
-      //  headers: {
-      //      "Access-Control-Allow-Origin": "*",
-      //      "Access-Control-Allow-Headers": "*"
-      //  },
-      body: JSON.stringify("foobarbaz"),
-    };
+    throw Error(err);
   }
 
   // DEEP LINKを作り、QueueにInvitationを投げる。
@@ -102,8 +91,6 @@ exports.handler = async (event) => {
     const sqsResp = await sqs.sendMessage(sqsParams).promise();
     console.log(JSON.stringify(sqsResp));
   } catch (err) {
-    // TODO throw Errorするとメッセージがキュー上から消費されず、永遠と同じことを繰り返してしまう。
-    // TODO return {}するとそれは起きないけど、正常にメッセージが消費されて消える。
     console.log(`error on sending message to sqs: ${err}`);
     throw Error(err);
   }
