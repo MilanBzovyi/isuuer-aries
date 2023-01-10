@@ -15,9 +15,7 @@ import GlobalNav from "@/components/GlobalNavigation.vue";
 export default {
   components: { GlobalNav },
   data() {
-    return {
-      user: null,
-    };
+    return {};
   },
 };
 </script>
