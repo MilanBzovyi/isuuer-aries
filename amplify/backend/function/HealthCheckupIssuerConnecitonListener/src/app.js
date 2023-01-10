@@ -79,65 +79,66 @@ app.post("/topic/connections", async function (req, res) {
       attributes: [
         {
           name: "patient_id",
-          value: checkupResult.patientId,
+          value: checkupResult.patientId.toString(),
         },
         {
           name: "bmi",
-          value: checkupResult.bmi,
+          value: checkupResult.bmi.toString(),
         },
         {
           name: "eyesight",
-          value: checkupResult.eyesight,
+          value: checkupResult.eyesight.toString(),
         },
         {
           name: "hearing",
-          value: checkupResult.hearing,
+          value: checkupResult.hearing.toString(),
         },
         {
           name: "waist",
-          value: checkupResult.waist,
+          value: checkupResult.waist.toString(),
         },
         {
           name: "blood_pressure",
-          value: checkupResult.bloodPressure,
+          value: checkupResult.bloodPressure.toString(),
         },
         {
           name: "vital_capacity",
-          value: checkupResult.vitalCapacity,
+          value: checkupResult.vitalCapacity.toString(),
         },
         {
           name: "ua",
-          value: checkupResult.ua,
+          value: checkupResult.ua.toString(),
         },
         {
           name: "tc",
-          value: checkupResult.tc,
+          value: checkupResult.tc.toString(),
         },
         {
           name: "tg",
-          value: checkupResult.tg,
+          value: checkupResult.tg.toString(),
         },
         {
           name: "fpg",
-          value: checkupResult.fpg,
+          value: checkupResult.fpg.toString(),
         },
         {
           name: "rbc",
-          value: checkupResult.rbc,
+          value: checkupResult.rbc.toString(),
         },
         {
           name: "wbc",
-          value: checkupResult.wbc,
+          value: checkupResult.wbc.toString(),
         },
         {
           name: "plt",
-          value: checkupResult.plt,
+          value: checkupResult.plt.toString(),
         },
       ],
     },
     trace: true,
   };
 
+  console.log(`Offer Request Body: ${JSON.stringify(offerReqBody)}`);
   const offerResponse = await fetch(
     `${process.env.ISSUER_ENDPOINT}/issue-credential/send-offer`,
     {
