@@ -39,19 +39,16 @@
 </template>
 <script>
 import * as patientsApi from "@/modules/api/patients.js";
-// import * as authApi from "@/modules/api/auth.js";
 export default {
   data() {
     return {
       checkupResult: null,
       renderReady: false,
-      // user: null,
-      // userLoggedin: false,
     };
   },
   computed: {},
   async created() {
-    // for testing...
+    // for mockup testing...
     // setTimeout(async () => {
     //   this.user = await userApi.getUser(this.$route.params.userId);
     //   this.$emit("userChanged", this.user);
@@ -61,13 +58,9 @@ export default {
     const checkupResultRaw = await patientsApi.getCheckupResult(
       this.$route.params.patientId
     );
-    console.log(checkupResultRaw);
+    delete checkupResultRaw.connectionId;
     this.checkupResult = patientsApi.changeCheckupResultLabel(checkupResultRaw);
-    // this.checkupResult = checkupResultRaw;
-    console.log(this.checkupResult);
 
-    // this.userLoggedin = authApi.isShownUserMyself(this.user.userId);
-    // this.$emit("userChanged", this.user);
     this.renderReady = true;
   },
   methods: {
@@ -78,32 +71,11 @@ export default {
 };
 </script>
 <style scoped>
-.title-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.title {
-  margin-top: 5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  row-gap: 1rem;
-}
 .prog-circ-on-init {
   width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.on-hover {
-  opacity: 0.6;
-  cursor: pointer;
-}
-.on-hover-2 {
-  cursor: pointer;
 }
 </style>

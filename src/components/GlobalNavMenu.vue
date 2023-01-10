@@ -37,9 +37,6 @@ export default {
   },
   methods: {
     moveToTo() {
-      // if (this.toolTipValue === "ログアウト") {
-      //   sessionStorage.removeItem("userName");
-      // }
       this.$router.push(this.to);
     },
   },

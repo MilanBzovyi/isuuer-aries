@@ -14,14 +14,6 @@
       <v-list class="mx-8">
         <template v-for="(user, i) in filteredUsers">
           <v-list-item :key="`list-${i}`">
-            <!-- <v-hover v-slot="{ hover }">
-              <avator
-                :avator="user.avator"
-                :profileLinked="true"
-                :class="{ 'on-avator-hovered': hover }"
-                v-on:avatorClicked="showProfile(user.userId)"
-              />
-            </v-hover> -->
             <v-list-item-content>
               <v-list-item-title>{{ user.name }}</v-list-item-title>
               <v-list-item-subtitle
@@ -140,10 +132,8 @@
 </template>
 <script>
 import * as patientsApi from "@/modules/api/patients.js";
-// import Avator from "@/components/Avator.vue";
 import { debounce } from "lodash";
 export default {
-  // components: { Avator },
   data() {
     return {
       // Rendering
@@ -190,15 +180,8 @@ export default {
       if (newKeyword === "") {
         this.filteredUsers = this.users;
       } else {
-        // バックエンド込み
-        // const params = {
-        //   userName: newKeyword,
-        //   block: 0,
-        // };
-        // const query = new URLSearchParams(params);
-        // this.filteredUsers = await patientsApi.getPatients(query);
-
-        // フロントエンドのみ
+        // フロントエンドのみの絞り込み
+        // （TODO このプロトタイプが進展するようであれば、下記のバックエンド込みの処理方式を検討する。）
         const localUsers = [];
         for (const user of this.users) {
           if (user.name.indexOf(this.userNameKeyword) !== -1) {
@@ -207,6 +190,14 @@ export default {
         }
         this.filteredUsers = localUsers;
       }
+
+      // バックエンド込み
+      // const params = {
+      //   userName: newKeyword,
+      //   block: 0,
+      // };
+      // const query = new URLSearchParams(params);
+      // this.filteredUsers = await patientsApi.getPatients(query);
     }, 500),
   },
   methods: {
@@ -217,8 +208,7 @@ export default {
       });
     },
     async sendOfferMailforIssueVC(patient) {
-      // for frontend testing...
-      // console.log(patientId);
+      // for mockup testing...
       // this.qrSendingLoader = true;
       // setTimeout(async () => {
       //   this.qrSendingLoader = false;
@@ -247,12 +237,6 @@ export default {
         alert("予期しないエラーが発生しました。");
       }
     },
-    // showUserBooks(userId) {
-    //   this.$router.push({ name: "UserBooks", params: { userId: userId } });
-    // },
-    // showUserTimeline(userId) {
-    //   this.$router.push({ name: "UserTimeline", params: { userId: userId } });
-    // },
   },
 };
 </script>
