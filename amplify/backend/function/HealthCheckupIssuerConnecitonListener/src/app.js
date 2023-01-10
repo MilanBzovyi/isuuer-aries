@@ -139,11 +139,9 @@ app.post("/topic/connections", async function (req, res) {
   };
 
   const offerResponse = await fetch(
-    `${process.env.ISSUER_ENDPOINT}/issue_credential/send-offer`,
+    `${process.env.ISSUER_ENDPOINT}/issue-credential/send-offer`,
     {
-      cache: "no-cache",
       method: "POST",
-      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -158,10 +156,7 @@ app.post("/topic/connections", async function (req, res) {
   } else {
     const message = "Error on calling aca-py's issue_crednetial/send-offer";
     console.error(`${message}: ${offerResponse.statusText}`);
-    throw new Error({
-      matter: message,
-      reason: offerResponse.statusText,
-    });
+    throw new Error(message);
   }
 
   return res.status(200).json("Connection listener succeeded.");

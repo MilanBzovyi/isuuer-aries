@@ -25,9 +25,7 @@ exports.handler = async (event) => {
   const createInvitationResponse = await fetch(
     `${process.env.ISSUER_ENDPOINT}/connections/create-invitation`,
     {
-      cache: "no-cache",
       method: "POST",
-      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -41,10 +39,7 @@ exports.handler = async (event) => {
   } else {
     const message = "Error on calling aca-py's connections/create-invitation";
     console.error(`${message}: ${createInvitationResponse.statusText}`);
-    throw new Error({
-      matter: message,
-      reason: createInvitationResponse.statusText,
-    });
+    throw new Error(message);
   }
 
   const invitationURL = createInvitationResponseJson.invitation_url;
