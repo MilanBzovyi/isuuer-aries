@@ -40,8 +40,8 @@ app.post("/topic/connections", async function (req, res) {
   console.log(body);
 
   const connectionId = body.connection_id;
-  console.log(body.status);
-  if (body.status === "active") {
+  console.log(body.state);
+  if (body.state === "active") {
     console.log(`connection is now active: ${connectionId}`);
   } else {
     return res
