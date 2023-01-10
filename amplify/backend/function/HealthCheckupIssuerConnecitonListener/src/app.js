@@ -54,16 +54,16 @@ app.post("/topic/connections", async function (req, res) {
     ExpressionAttributeValues: {
       ":connectionId": connectionId,
     },
-    KeyConditionExpression: "connectionId = :connectionId",
+    FilterExpression: "connectionId = :connectionId",
     TableName: process.env.STORAGE_PATIENT_NAME,
   };
 
   let checkupResult = null;
   try {
-    checkupResult = await docClient.query(params).promise();
+    checkupResult = await docClient.scan(params).promise();
   } catch (err) {
     console.log("error on retrieving patient data.", err);
-    res.status(500).json({ error: err });
+    return res.status(500).json({ error: err });
   }
 
   const offerReqBody = {
