@@ -38,7 +38,8 @@
           "holderEmailTestAddress": "takahiro-kanuma@gmogshd.com"
         },
         "HealthCheckupIssuerConnecitonListener": {
-          "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1"
+          "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:14:1.1",
+          "issuerEndpoint": "http://35.77.39.134:8071"
         }
       }
     }

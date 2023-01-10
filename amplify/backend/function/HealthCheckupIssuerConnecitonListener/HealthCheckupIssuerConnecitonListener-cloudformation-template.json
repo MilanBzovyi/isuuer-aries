@@ -30,6 +30,9 @@
     },
     "credDefId": {
       "Type": "String"
+    },
+    "issuerEndpoint": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -96,6 +99,9 @@
             },
             "CRED_DEF_ID": {
               "Ref": "credDefId"
+            },
+            "ISSUER_ENDPOINT": {
+              "Ref": "issuerEndpoint"
             }
           }
         },
