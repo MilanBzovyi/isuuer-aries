@@ -30,24 +30,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-/**********************
- * Example get method *
- **********************/
-
-// app.get("/topic/issue_credential", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "get call succeed!", url: req.url });
-// });
-
-// app.get("/topic/issue_credential/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "get call succeed!", url: req.url });
-// });
-
-/****************************
- * Example post method *
- ****************************/
-
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 app.post("/topic/issue_credential", async function (req, res) {
@@ -77,44 +59,4 @@ app.post("/topic/issue_credential", async function (req, res) {
   }
 });
 
-// app.post("/topic/issue_credential/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "post call succeed!", url: req.url, body: req.body });
-// });
-
-/****************************
- * Example put method *
- ****************************/
-
-// app.put("/topic/issue_credential", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "put call succeed!", url: req.url, body: req.body });
-// });
-
-// app.put("/topic/issue_credential/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "put call succeed!", url: req.url, body: req.body });
-// });
-
-/****************************
- * Example delete method *
- ****************************/
-
-// app.delete("/topic/issue_credential", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "delete call succeed!", url: req.url });
-// });
-
-// app.delete("/topic/issue_credential/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "delete call succeed!", url: req.url });
-// });
-
-// app.listen(3000, function () {
-//   console.log("App started");
-// });
-
-// Export the app object. When executing the application local this does nothing. However,
-// to port it to AWS Lambda we will create a wrapper around that will load the app from
-// this file
 module.exports = app;

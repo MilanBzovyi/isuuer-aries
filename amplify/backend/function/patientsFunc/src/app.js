@@ -27,7 +27,6 @@ app.use(awsServerlessExpressMiddleware.eventContext());
 
 // Enable CORS for all methods
 app.use(function (req, res, next) {
-  // res.header("Access-Control-Allow-Origin", process.env.FRONTEND_ORIGIN);
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
   next();
@@ -62,24 +61,6 @@ app.get("/patients/*", async function (req, res) {
     res.status(500).json({ error: err });
   }
 });
-
-/****************************
- * Example post method *
- ****************************/
-
-// app.post("/patients", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "post call succeed!", url: req.url, body: req.body });
-// });
-
-// app.post("/patients/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "post call succeed!", url: req.url, body: req.body });
-// });
-
-// app.put("/patients", function (req, res) {
-//   res.json({ success: "put call succeed!", url: req.url, body: req.body });
-// });
 
 const sqs = new AWS.SQS();
 app.put("/patients/*", async function (req, res) {
@@ -123,25 +104,4 @@ app.put("/patients/*", async function (req, res) {
   return res.status(200).json({ message: "success" });
 });
 
-/****************************
- * Example delete method *
- ****************************/
-
-// app.delete("/patients", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "delete call succeed!", url: req.url });
-// });
-
-// app.delete("/patients/*", function (req, res) {
-//   // Add your code here
-//   res.json({ success: "delete call succeed!", url: req.url });
-// });
-
-// app.listen(3000, function () {
-//   console.log("App started");
-// });
-
-// Export the app object. When executing the application local this does nothing. However,
-// to port it to AWS Lambda we will create a wrapper around that will load the app from
-// this file
 module.exports = app;
