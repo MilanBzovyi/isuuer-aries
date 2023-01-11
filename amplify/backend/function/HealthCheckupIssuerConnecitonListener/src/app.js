@@ -61,13 +61,20 @@ app.post("/topic/connections", async function (req, res) {
 
   let checkupResult = null;
   try {
-    checkupResult = await docClient.scan(params).promise();
+    const scanResp = await docClient.scan(params).promise();
+    if (scanResp.Items.length === 1) {
+      checkupResult = scanResp.Items[0];
+      console.log(`checkup result: ${JSON.stringify(checkupResult)}`);
+    } else {
+      throw new Error(
+        `patient with connection id ${connectionId} was not found.`
+      );
+    }
   } catch (err) {
-    console.log("error on retrieving patient data.", err);
+    console.log("error on retrieving patient data.", JSON.stringify(err));
     return res.status(500).json({ error: err });
   }
 
-  console.log(`checkup result: ${JSON.stringify(checkupResult)}`);
   const offerReqBody = {
     auto_remove: false,
     auto_issue: true,
