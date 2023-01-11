@@ -67,7 +67,7 @@ app.post("/topic/connections", async function (req, res) {
     return res.status(500).json({ error: err });
   }
 
-  console.log(`checkup result: ${checkupResult}`);
+  console.log(`checkup result: ${JSON.stringify(checkupResult)}`);
   const offerReqBody = {
     auto_remove: false,
     auto_issue: true,
