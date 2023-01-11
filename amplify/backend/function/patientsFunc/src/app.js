@@ -76,6 +76,7 @@ app.put("/patients/*", async function (req, res) {
     },
     UpdateExpression: "set issueState = :s",
     ExpressionAttributeValues: {
+      // 1: 受付済み
       ":s": 1,
     },
   };

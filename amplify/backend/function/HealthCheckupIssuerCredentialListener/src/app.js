@@ -33,30 +33,41 @@ app.use(function (req, res, next) {
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 app.post("/topic/issue_credential", async function (req, res) {
+  const body = req.body;
+  const credentialExchangeId = body.credential_exchange_id;
   const state = req.body.state;
   console.log(`state: ${state}`);
 
-  if (state === "done") {
-    const params = {
-      TableName: process.env.STORAGE_PATIENT_NAME,
-      Key: {
-        patientId: req.body.patientId,
-      },
-      UpdateExpression: "set issueState = :s and issuedDate = :d",
-      ExpressionAttributeValues: {
-        ":s": 3,
-        ":d": new Date().getTime(),
-      },
-    };
-
-    try {
-      await docClient.update(params).promise();
-      return res.status(200).json("success");
-    } catch (err) {
-      console.log(`db update error: ${err}`);
-      return res.status(500).json({ error: err });
-    }
+  if (state !== "credential_issued") {
+    return res
+      .status(200)
+      .json(`vc has not been issued yet: ${credentialExchangeId}`);
   }
+
+  console.log(`vc has been issued: ${credentialExchangeId}`);
+
+  // TODO ここでpatientIdじゃなくてconnectionIdを元にアップデートするようにする。
+  const params = {
+    TableName: process.env.STORAGE_PATIENT_NAME,
+    Key: {
+      patientId: body.patientId,
+    },
+    UpdateExpression: "set issueState = :s and issuedDate = :d",
+    ExpressionAttributeValues: {
+      // 3: 発行済み
+      ":s": 3,
+      ":d": new Date().getTime(),
+    },
+  };
+
+  try {
+    await docClient.update(params).promise();
+  } catch (err) {
+    console.log(`db update error: ${err}`);
+    return res.status(500).json({ error: err });
+  }
+
+  return res.status(200).json("Credential listener succeeded.");
 });
 
 module.exports = app;

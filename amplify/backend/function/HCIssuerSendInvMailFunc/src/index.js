@@ -44,6 +44,7 @@ exports.handler = async (event) => {
     },
     UpdateExpression: "set issueState = :s",
     ExpressionAttributeValues: {
+      // 2: オファー済み
       ":s": 2,
     },
   };

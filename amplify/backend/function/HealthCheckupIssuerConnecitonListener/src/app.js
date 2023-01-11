@@ -38,18 +38,17 @@ app.use(function (req, res, next) {
  */
 app.post("/topic/connections", async function (req, res) {
   const body = req.body;
-  console.log(body);
-
   const connectionId = body.connection_id;
-  console.log(body.state);
-  if (body.state === "active") {
-    console.log(`connection is now active: ${connectionId}`);
-  } else {
+  const state = req.body.state;
+  console.log(`state: ${state}`);
+
+  if (body.state !== "active") {
     return res
       .status(200)
       .json(`connection is not active yet: ${connectionId}`);
   }
 
+  console.log(`connection is now active: ${connectionId}`);
   // DBからClaimの取得
   const params = {
     ExpressionAttributeValues: {
