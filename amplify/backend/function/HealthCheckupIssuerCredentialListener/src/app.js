@@ -44,17 +44,17 @@ app.post("/topic/issue_credential", async function (req, res) {
 
   console.log(`vc has been issued: ${credentialExchangeId}`);
 
-  // TODO このプロトタイプを発展させることになり、Patientが多数になった場合は、
-  // Dynamo DB上でconnectionIdにセカンダリーインデックスを張る。
   const params = {
     TableName: process.env.STORAGE_PATIENT_NAME,
+    Key: {
+      // DynamoDB上でGSIを張ってある。
+      connectionId: body.connectionId,
+    },
     UpdateExpression: "set issueState = :s and issuedDate = :d",
-    ConditionExpression: "connectionId = :c",
     ExpressionAttributeValues: {
       // 3: 発行済み
       ":s": 3,
       ":d": new Date().getTime(),
-      ":c": body.connection_id,
     },
   };
 
