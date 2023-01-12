@@ -50,7 +50,7 @@ app.post("/topic/issue_credential", async function (req, res) {
       // DynamoDB上でGSIを張ってある。
       connectionId: body.connectionId,
     },
-    UpdateExpression: "set issueState = :s and issuedDate = :d",
+    UpdateExpression: "set issueState = :s, issuedDate = :d",
     ExpressionAttributeValues: {
       // 3: 発行済み
       ":s": 3,
