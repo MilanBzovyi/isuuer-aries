@@ -57,16 +57,17 @@ app.post("/topic/issue_credential", async function (req, res) {
     const checkupResult = await docClient.query(queryParams).promise();
     const patientId = checkupResult.Items[0].patientId;
 
+    console.log(checkupResult);
     const updateParams = {
       TableName: process.env.STORAGE_PATIENT_NAME,
       Key: {
         patientId: patientId,
       },
-      UpdateExpression: "set issueState = :s, issuedDate = :d",
+      UpdateExpression: "set issueState = :s",
       ExpressionAttributeValues: {
         // 3: 発行済み
         ":s": 3,
-        ":d": new Date().getTime(),
+        // ":d": new Date().getTime(),
       },
     };
 
