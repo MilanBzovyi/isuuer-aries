@@ -44,22 +44,33 @@ app.post("/topic/issue_credential", async function (req, res) {
 
   console.log(`vc has been issued: ${credentialExchangeId}`);
 
-  const params = {
-    TableName: process.env.STORAGE_PATIENT_NAME,
-    Key: {
-      // DynamoDB上でGSIを張ってある。
-      connectionId: body.connectionId,
-    },
-    UpdateExpression: "set issueState = :s, issuedDate = :d",
-    ExpressionAttributeValues: {
-      // 3: 発行済み
-      ":s": 3,
-      ":d": new Date().getTime(),
-    },
-  };
-
   try {
-    await docClient.update(params).promise();
+    const queryParams = {
+      ExpressionAttributeValues: {
+        ":connectionId": body.connectionId,
+      },
+      // DynamoDB上でGSIを張ってある。
+      KeyConditionExpression: "connectionId = :connectionId",
+      TableName: process.env.STORAGE_PATIENT_NAME,
+    };
+
+    const checkupResult = await docClient.query(queryParams).promise();
+    const patientId = checkupResult.Items[0].patientId;
+
+    const updateParams = {
+      TableName: process.env.STORAGE_PATIENT_NAME,
+      Key: {
+        patientId: patientId,
+      },
+      UpdateExpression: "set issueState = :s, issuedDate = :d",
+      ExpressionAttributeValues: {
+        // 3: 発行済み
+        ":s": 3,
+        ":d": new Date().getTime(),
+      },
+    };
+
+    await docClient.update(updateParams).promise();
   } catch (err) {
     console.log(`db update error: ${JSON.stringify(err)}`);
     return res.status(500).json({ error: err });
