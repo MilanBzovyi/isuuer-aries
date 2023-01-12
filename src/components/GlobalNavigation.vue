@@ -2,7 +2,7 @@
   <v-app-bar color="primary" app clipped-left elevation="0">
     <h3>
       <span class="white--text" @click="showHome" style="cursor: pointer"
-        >健康診断</span
+        >健康診断結果</span
       >
     </h3>
     <v-spacer></v-spacer>
