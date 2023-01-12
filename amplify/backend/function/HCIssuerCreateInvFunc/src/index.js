@@ -6,20 +6,24 @@
 	STORAGE_PATIENT_STREAMARN
 Amplify Params - DO NOT EDIT */
 
+/**
+ * Holderに対しConnectionを張るために、Invitationを作成する。
+ *
+ * @author @t_kanuma
+ */
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 const sqs = new AWS.SQS();
-
 const fetch = require("node-fetch");
 
 exports.handler = async (event) => {
   console.log(`event: ${JSON.stringify(event)}`);
-  const data = JSON.parse(event.Records[0].body);
-  console.log(data);
+  const payload = JSON.parse(event.Records[0].body);
+  console.log(`payload: ${JSON.stringify(payload)}`);
 
   // Invitation生成のEndpoint呼び出し
   const createInvitationReqBody = {
-    my_label: `${data.name}さんへのInvitation`,
+    my_label: `${payload.name}さんへのInvitation`,
   };
 
   const createInvitationResponse = await fetch(
@@ -45,8 +49,8 @@ exports.handler = async (event) => {
   const invitationURL = createInvitationResponseJson.invitation_url;
   console.log("invitationURL", invitationURL);
 
-  // applicant idを元にconnection idをDBに保管する。
-  const patientId = data.patientId;
+  // patient idを元にconnection idをDBに保管する。
+  const patientId = payload.patientId;
   const connectionId = createInvitationResponseJson.connection_id;
 
   const paramsforUpdate = {
@@ -64,7 +68,7 @@ exports.handler = async (event) => {
     const docResp = await docClient.update(paramsforUpdate).promise();
     console.log(JSON.stringify(docResp));
   } catch (err) {
-    console.log(`db updating issueState error: ${err}`);
+    console.log(`db updating issueState error: ${JSON.stringify(err)}`);
     throw Error(err);
   }
 
@@ -76,8 +80,8 @@ exports.handler = async (event) => {
   try {
     const sqsParams = {
       MessageBody: JSON.stringify({
-        patientId: data.patientId,
-        patientName: data.name,
+        patientId: payload.patientId,
+        patientName: payload.name,
         invitation: deepLinkInvitation,
       }),
       QueueUrl: process.env.QUEUE_URL,
@@ -86,7 +90,7 @@ exports.handler = async (event) => {
     const sqsResp = await sqs.sendMessage(sqsParams).promise();
     console.log(JSON.stringify(sqsResp));
   } catch (err) {
-    console.log(`error on sending message to sqs: ${err}`);
+    console.log(`error on sending message to sqs: ${JSON.stringify(err)}`);
     throw Error(err);
   }
 };

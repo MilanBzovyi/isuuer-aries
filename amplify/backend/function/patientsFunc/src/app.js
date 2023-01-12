@@ -14,24 +14,31 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_PATIENT_STREAMARN
 Amplify Params - DO NOT EDIT */
 
+/**
+ * Patientリソースに責務を持つApp
+ *
+ * @author @t_kanuma
+ */
 const express = require("express");
 const bodyParser = require("body-parser");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
-const AWS = require("aws-sdk");
-const docClient = new AWS.DynamoDB.DocumentClient();
 
-// declare a new express app
 const app = express();
 app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());
 
-// Enable CORS for all methods
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
 
+const AWS = require("aws-sdk");
+const docClient = new AWS.DynamoDB.DocumentClient();
+
+/**
+ * 受診者リストを取得する。
+ */
 app.get("/patients", async function (req, res) {
   const params = {
     TableName: process.env.STORAGE_PATIENT_NAME,
@@ -45,7 +52,12 @@ app.get("/patients", async function (req, res) {
   }
 });
 
+/**
+ * 受診者の健康診断結果を取得する。
+ */
 app.get("/patients/*", async function (req, res) {
+  // TODO 現状、/*のパターンは1つしかないが、今後複数になる場合は修正する。
+
   const params = {
     ExpressionAttributeValues: {
       ":patientId": parseInt(req.params[0], 10),
@@ -63,11 +75,16 @@ app.get("/patients/*", async function (req, res) {
 });
 
 const sqs = new AWS.SQS();
+/**
+ * Holderへの発行オファーを受け付ける。
+ */
 app.put("/patients/*", async function (req, res) {
-  console.log(req.body);
-  // TODO クライアントからのデータを使わずに、IDを元にDBから引っ張ってくる。
+  // TODO 現状、/*のパターンは1つしかないが、今後複数になる場合は修正する。
+
+  // TODO クライアントからのデータを使わずに、patient idを元にDBから引っ張ってくる。
   // （今後このプロトタイプが進展するようであれば直す。）
   const checkupResult = req.body;
+  console.log(`checkupResult: ${checkupResult}`);
 
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
@@ -83,9 +100,9 @@ app.put("/patients/*", async function (req, res) {
   try {
     const docResp = await docClient.update(paramsforUpdate).promise();
     checkupResult.issueState = 1;
-    console.log(JSON.stringify(docResp));
+    console.log(`issue state update resp: ${JSON.stringify(docResp)}`);
   } catch (err) {
-    console.log(`db updating issueState error: ${err}`);
+    console.log(`error on updaing issue state on db: ${JSON.stringify(err)}`);
     return res.status(500).json({ message: "server error" });
   }
 
@@ -96,9 +113,9 @@ app.put("/patients/*", async function (req, res) {
     };
 
     const sqsResp = await sqs.sendMessage(sqsParams).promise();
-    console.log(JSON.stringify(sqsResp));
+    console.log(`sqs resp: ${JSON.stringify(sqsResp)}`);
   } catch (err) {
-    console.log(`error on sending message to sqs: ${err}`);
+    console.log(`error on sending message to sqs: ${JSON.stringify(err)}`);
     return res.status(500).json({ message: "server error" });
   }
 

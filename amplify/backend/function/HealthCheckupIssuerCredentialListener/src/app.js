@@ -14,24 +14,22 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_PATIENT_STREAMARN
 Amplify Params - DO NOT EDIT */
 
+/**
+ * Webhookとして、ACA-PyからのVC発行に関するイベントを受け取るListener
+ *
+ * @author @t_kanuma
+ */
 const express = require("express");
 const bodyParser = require("body-parser");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 
-// declare a new express app
 const app = express();
 app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());
 
-// Enable CORS for all methods
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  next();
-});
-
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
+
 app.post("/topic/issue_credential", async function (req, res) {
   const body = req.body;
   const credentialExchangeId = body.credential_exchange_id;
@@ -46,7 +44,10 @@ app.post("/topic/issue_credential", async function (req, res) {
 
   console.log(`vc has been issued: ${credentialExchangeId}`);
 
-  // TODO ここでpatientIdじゃなくてconnectionIdを元にアップデートするようにする。
+  // TODO TODOTODOここでpatientIdじゃなくてconnectionIdを元にアップデートするようにする。
+
+  // TODO このプロトタイプを発展させることになり、Patientが多数になった場合は、
+  // Dynamo DB上でconnectionIdにセカンダリーインデックスを張る。
   const params = {
     TableName: process.env.STORAGE_PATIENT_NAME,
     Key: {
@@ -63,7 +64,7 @@ app.post("/topic/issue_credential", async function (req, res) {
   try {
     await docClient.update(params).promise();
   } catch (err) {
-    console.log(`db update error: ${err}`);
+    console.log(`db update error: ${JSON.stringify(err)}`);
     return res.status(500).json({ error: err });
   }
 

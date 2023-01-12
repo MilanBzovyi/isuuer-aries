@@ -14,28 +14,23 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_PATIENT_STREAMARN
 Amplify Params - DO NOT EDIT */
 
+/**
+ * Webhookとして、ACA-PyからのConnectionに関するイベントを受け取るListener
+ *
+ * @author @t_kanuma
+ */
 const express = require("express");
 const bodyParser = require("body-parser");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 
-// declare a new express app
 const app = express();
 app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());
+
 const fetch = require("node-fetch");
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-// Enable CORS for all methods
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  next();
-});
-
-/**
- * Connectionを作ったら、発行オファーを送る。
- */
 app.post("/topic/connections", async function (req, res) {
   const body = req.body;
   const connectionId = body.connection_id;
@@ -66,18 +61,22 @@ app.post("/topic/connections", async function (req, res) {
       console.log(`checkup result: ${JSON.stringify(checkupResult)}`);
     } else {
       throw new Error(
-        `patient with connection id ${connectionId} was not found.`
+        `patient with connection id: ${connectionId} was not found.`
       );
     }
   } catch (err) {
-    console.log("error on retrieving patient data.", JSON.stringify(err));
+    console.log(
+      "error on retrieving patient data from db",
+      JSON.stringify(err)
+    );
     return res.status(500).json({ error: err });
   }
 
+  // オファー準備
   const offerReqBody = {
     auto_remove: false,
     auto_issue: true,
-    comment: `vc issue offer to a patient: ${checkupResult.name}`,
+    comment: `offering vc issue to a patient: ${checkupResult.name}`,
     connection_id: connectionId,
     cred_def_id: process.env.CRED_DEF_ID,
     credential_preview: {
@@ -145,6 +144,7 @@ app.post("/topic/connections", async function (req, res) {
     trace: true,
   };
 
+  // オファー送信
   console.log(`Offer Request Body: ${JSON.stringify(offerReqBody)}`);
   const offerResponse = await fetch(
     `${process.env.ISSUER_ENDPOINT}/issue-credential/send-offer`,
