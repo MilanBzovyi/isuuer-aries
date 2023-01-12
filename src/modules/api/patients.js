@@ -146,7 +146,7 @@ export const changeCheckupResultLabel = (checkupResultRaw) => {
     checkupResultRaw["証明書発行日"] = null;
   } else {
     checkupResultRaw["証明書発行日"] = new Date(
-      checkupResultRaw.checkedupDate
+      checkupResultRaw.issuedDate
     ).toLocaleDateString();
   }
   delete checkupResultRaw.issuedDate;
