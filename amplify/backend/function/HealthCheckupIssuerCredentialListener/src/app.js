@@ -52,7 +52,7 @@ app.post("/topic/issue_credential", async function (req, res) {
         ":connectionId": body.connection_id,
       },
       KeyConditionExpression: "connectionId = :connectionId",
-      // TODO projection expressionの追加
+      ProjectionExpression: "patientId",
     };
 
     const checkupResult = await docClient.query(queryParams).promise();
