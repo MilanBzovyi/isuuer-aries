@@ -52,6 +52,7 @@ app.post("/topic/issue_credential", async function (req, res) {
         ":connectionId": body.connection_id,
       },
       KeyConditionExpression: "connectionId = :connectionId",
+      // TODO projection expressionの追加
     };
 
     const checkupResult = await docClient.query(queryParams).promise();
@@ -62,7 +63,7 @@ app.post("/topic/issue_credential", async function (req, res) {
       Key: {
         patientId: patientId,
       },
-      UpdateExpression: "set issueState = :s",
+      UpdateExpression: "set issueState = :s, issuedDate = :d",
       ExpressionAttributeValues: {
         // 3: 発行済み
         ":s": 3,
