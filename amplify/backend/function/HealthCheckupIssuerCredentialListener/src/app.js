@@ -47,7 +47,7 @@ app.post("/topic/issue_credential", async function (req, res) {
   try {
     const queryParams = {
       ExpressionAttributeValues: {
-        ":connectionId": body.connectionId,
+        ":connectionId": body.connection_id,
       },
       // DynamoDB上でGSIを張ってある。
       KeyConditionExpression: "connectionId = :connectionId",
@@ -57,7 +57,6 @@ app.post("/topic/issue_credential", async function (req, res) {
     const checkupResult = await docClient.query(queryParams).promise();
     const patientId = checkupResult.Items[0].patientId;
 
-    console.log(checkupResult);
     const updateParams = {
       TableName: process.env.STORAGE_PATIENT_NAME,
       Key: {
@@ -67,7 +66,7 @@ app.post("/topic/issue_credential", async function (req, res) {
       ExpressionAttributeValues: {
         // 3: 発行済み
         ":s": 3,
-        // ":d": new Date().getTime(),
+        ":d": new Date().getTime(),
       },
     };
 
