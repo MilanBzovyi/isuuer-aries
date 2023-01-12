@@ -1,3 +1,13 @@
+/**
+ * Patientリソースに責務を持つモジュール
+ */
+
+/**
+ * 全ての受診者情報を取得する。
+ *
+ * @param {*} queryParams クエリパラメータ
+ * @returns 受診者情報
+ */
 export const getPatients = async (queryParams) => {
   let url = null;
   if (queryParams === null || queryParams === undefined) {
@@ -23,11 +33,17 @@ export const getPatients = async (queryParams) => {
       throw new Error(response.statusText);
     }
   } catch (error) {
-    console.log(error);
+    console.log(JSON.stringify(error));
     throw new Error(error);
   }
 };
 
+/**
+ * ある受診者の健康診断結果を取得する。
+ *
+ * @param {*} patientId 受診者ID
+ * @returns 健康診断結果
+ */
 export const getCheckupResult = async (patientId) => {
   try {
     const response = await fetch(
@@ -54,12 +70,17 @@ export const getCheckupResult = async (patientId) => {
       throw new Error(response.statusText);
     }
   } catch (error) {
-    console.log(error);
+    console.log(JSON.stringify(error));
     throw new Error(error);
   }
 };
 
-export const updateIssueState = async (patient) => {
+/**
+ * HolderにVC発行をオファーする。
+ *
+ * @param {*} patient 受診者情報
+ */
+export const offerVCIssueing = async (patient) => {
   try {
     const response = await fetch(
       `${process.env.VUE_APP_API_BASE_URL}/patients/${patient.patientId}`,
@@ -82,6 +103,12 @@ export const updateIssueState = async (patient) => {
   }
 };
 
+/**
+ * 画面表示用に健康診断結果のラベルを調整する。
+ *
+ * @param {*} checkupResultRaw 健康診断結果情報
+ * @returns 調整された健康診断結果情報
+ */
 export const changeCheckupResultLabel = (checkupResultRaw) => {
   console.log(checkupResultRaw);
 

@@ -225,7 +225,7 @@ export default {
 
       try {
         this.qrSendingLoader = true;
-        await patientsApi.updateIssueState(patient);
+        await patientsApi.offerVCIssueing(patient);
         this.qrSendingLoader = false;
         this.qrSendingDialog[patient.patientId] = false;
         this.qrSendingSnackbar = true;
