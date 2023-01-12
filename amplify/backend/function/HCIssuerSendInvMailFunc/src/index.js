@@ -27,10 +27,10 @@ exports.handler = async (event) => {
         ToAddresses: [process.env.HOLDER_EMAIL_TEST_ADDRESS],
       },
       Message: {
-        Subject: { Data: "健康診断結果証明書発行オファー(仮)" },
+        Subject: { Data: "健康診断結果確定のお知らせ" },
         Body: {
           Html: {
-            Data: `${payload.patientName}さん<br><br> <a href='${payload.invitation}'>ここ</a>をクリックして健康診断書証明書を発行してください。(仮)`,
+            Data: `${payload.patientName}様<br><br>先日受診いただいた健康診断の結果が確定しました。<br>提携保険会社に提出可能な「診断結果証明書」を発行し、スマートフォンに格納することが可能です。<br>証明書の発行を希望される場合には、<a href='${payload.invitation}'>こちら</a>をクリックしをクリックし、手続きに進んでください。`,
           },
         },
       },
