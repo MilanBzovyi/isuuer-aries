@@ -46,12 +46,12 @@ app.post("/topic/issue_credential", async function (req, res) {
 
   try {
     const queryParams = {
+      TableName: process.env.STORAGE_PATIENT_NAME,
+      IndexName: "connectionId-index",
       ExpressionAttributeValues: {
         ":connectionId": body.connection_id,
       },
-      // DynamoDB上でGSIを張ってある。
       KeyConditionExpression: "connectionId = :connectionId",
-      TableName: process.env.STORAGE_PATIENT_NAME,
     };
 
     const checkupResult = await docClient.query(queryParams).promise();
