@@ -33,7 +33,7 @@ export const getPatients = async (queryParams) => {
       throw new Error(response.statusText);
     }
   } catch (error) {
-    console.log(JSON.stringify(error));
+    console.error(JSON.stringify(error));
     throw new Error(error);
   }
 };
@@ -70,7 +70,7 @@ export const getCheckupResult = async (patientId) => {
       throw new Error(response.statusText);
     }
   } catch (error) {
-    console.log(JSON.stringify(error));
+    console.error(JSON.stringify(error));
     throw new Error(error);
   }
 };
@@ -98,7 +98,7 @@ export const offerVCIssueing = async (patient) => {
       throw new Error(response.statusText);
     }
   } catch (error) {
-    console.log(JSON.stringify(error));
+    console.error(JSON.stringify(error));
     throw new Error(error);
   }
 };
