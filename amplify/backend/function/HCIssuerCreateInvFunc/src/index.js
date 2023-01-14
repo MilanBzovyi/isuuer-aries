@@ -66,9 +66,9 @@ exports.handler = async (event) => {
 
   try {
     const docResp = await docClient.update(paramsforUpdate).promise();
-    console.log(JSON.stringify(docResp));
+    console.log(`db update resp: ${JSON.stringify(docResp)}`);
   } catch (err) {
-    console.log(`db updating issueState error: ${JSON.stringify(err)}`);
+    console.log(`error on updating connection id: ${JSON.stringify(err)}`);
     throw Error(err);
   }
 
@@ -88,7 +88,7 @@ exports.handler = async (event) => {
     };
 
     const sqsResp = await sqs.sendMessage(sqsParams).promise();
-    console.log(JSON.stringify(sqsResp));
+    console.log(`sqs send resp: ${JSON.stringify(sqsResp)}`);
   } catch (err) {
     console.log(`error on sending message to sqs: ${JSON.stringify(err)}`);
     throw Error(err);

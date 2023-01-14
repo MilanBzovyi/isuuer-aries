@@ -104,12 +104,12 @@ export const offerVCIssueing = async (patient) => {
 };
 
 /**
- * 画面表示用に健康診断結果のラベルを調整する。
+ * 画面表示用に健康診断結果を調整する。
  *
  * @param {*} checkupResultRaw 健康診断結果情報
  * @returns 調整された健康診断結果情報
  */
-export const changeCheckupResultLabel = (checkupResultRaw) => {
+export const arrangeCheckupResult = (checkupResultRaw) => {
   console.log(checkupResultRaw);
 
   checkupResultRaw["受診者ID"] = checkupResultRaw.patientId;

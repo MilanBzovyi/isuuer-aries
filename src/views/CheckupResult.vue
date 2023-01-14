@@ -59,7 +59,7 @@ export default {
       this.$route.params.patientId
     );
     delete checkupResultRaw.connectionId;
-    this.checkupResult = patientsApi.changeCheckupResultLabel(checkupResultRaw);
+    this.checkupResult = patientsApi.arrangeCheckupResult(checkupResultRaw);
 
     this.renderReady = true;
   },

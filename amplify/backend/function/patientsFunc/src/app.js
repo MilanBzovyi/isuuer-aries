@@ -76,7 +76,7 @@ app.get("/patients/*", async function (req, res) {
 
 const sqs = new AWS.SQS();
 /**
- * Holderへの発行オファーを受け付ける。
+ * Holderへの発行オファーの送信を受け付ける。
  */
 app.put("/patients/*", async function (req, res) {
   // TODO 現状、/*のパターンは1つしかないが、今後複数になる場合は修正する。
