@@ -129,6 +129,7 @@ export const arrangeCheckupResult = (checkupResultRaw) => {
   ).toLocaleDateString();
   delete checkupResultRaw.checkedupDate;
 
+  // TODO 後でswitch文に変える
   const issueState = checkupResultRaw.issueState;
   if (issueState === 0) {
     checkupResultRaw["証明書発行状態"] = "未発行";
@@ -141,6 +142,7 @@ export const arrangeCheckupResult = (checkupResultRaw) => {
   }
   delete checkupResultRaw.issueState;
 
+  // TODO 後でdynamodbの数値型列にnull入らない問題調査
   const issuedDate = checkupResultRaw.issuedDate;
   if (issuedDate === 0) {
     checkupResultRaw["証明書発行日"] = null;
