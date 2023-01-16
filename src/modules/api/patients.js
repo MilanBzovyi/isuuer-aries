@@ -139,6 +139,8 @@ export const arrangeCheckupResult = (checkupResultRaw) => {
     checkupResultRaw["証明書発行状態"] = "発行オファーメール送信済み";
   } else if (issueState === 3) {
     checkupResultRaw["証明書発行状態"] = "発行済み";
+  } else {
+    // noop
   }
   delete checkupResultRaw.issueState;
 
