@@ -23,7 +23,7 @@ exports.handler = async (event) => {
 
   // Invitation生成のEndpoint呼び出し
   const createInvitationReqBody = {
-    my_label: `${payload.name}さんへのInvitation`,
+    my_label: "ABC病院",
   };
 
   const createInvitationResponse = await fetch(
