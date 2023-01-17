@@ -34,27 +34,27 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 app.post("/topic/connections", async function (req, res) {
   const body = req.body;
   const connectionId = body.connection_id;
-  const state = req.body.state;
+  const state = body.state;
   console.log(`state: ${state}`);
 
-  if (body.state !== "active") {
+  if (state !== "active") {
     return res
       .status(200)
       .json(`connection is not active yet: ${connectionId}`);
   }
 
   console.log(`connection is now active: ${connectionId}`);
-  // DBからClaimの取得
-  const params = {
-    ExpressionAttributeValues: {
-      ":connectionId": connectionId,
-    },
-    FilterExpression: "connectionId = :connectionId",
-    TableName: process.env.STORAGE_PATIENT_NAME,
-  };
-
   let checkupResult = null;
   try {
+    // DBからClaimの取得
+    const params = {
+      ExpressionAttributeValues: {
+        ":connectionId": connectionId,
+      },
+      FilterExpression: "connectionId = :connectionId",
+      TableName: process.env.STORAGE_PATIENT_NAME,
+    };
+
     const scanResp = await docClient.scan(params).promise();
     if (scanResp.Items.length === 1) {
       checkupResult = scanResp.Items[0];
@@ -72,99 +72,105 @@ app.post("/topic/connections", async function (req, res) {
     return res.status(500).json({ error: err });
   }
 
-  // オファー準備
-  const offerReqBody = {
-    auto_remove: false,
-    auto_issue: true,
-    comment: `offering vc issue to a patient: ${checkupResult.name}`,
-    connection_id: connectionId,
-    cred_def_id: process.env.CRED_DEF_ID,
-    credential_preview: {
-      "@type":
-        "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
-      attributes: [
-        {
-          name: "patient_id",
-          value: checkupResult.patientId.toString(),
-        },
-        {
-          name: "bmi",
-          value: checkupResult.bmi.toString(),
-        },
-        {
-          name: "eyesight",
-          value: checkupResult.eyesight.toString(),
-        },
-        {
-          name: "hearing",
-          value: checkupResult.hearing.toString(),
-        },
-        {
-          name: "waist",
-          value: checkupResult.waist.toString(),
-        },
-        {
-          name: "blood_pressure",
-          value: checkupResult.bloodPressure.toString(),
-        },
-        {
-          name: "vital_capacity",
-          value: checkupResult.vitalCapacity.toString(),
-        },
-        {
-          name: "ua",
-          value: checkupResult.ua.toString(),
-        },
-        {
-          name: "tc",
-          value: checkupResult.tc.toString(),
-        },
-        {
-          name: "tg",
-          value: checkupResult.tg.toString(),
-        },
-        {
-          name: "fpg",
-          value: checkupResult.fpg.toString(),
-        },
-        {
-          name: "rbc",
-          value: checkupResult.rbc.toString(),
-        },
-        {
-          name: "wbc",
-          value: checkupResult.wbc.toString(),
-        },
-        {
-          name: "plt",
-          value: checkupResult.plt.toString(),
-        },
-      ],
-    },
-    trace: true,
-  };
-
-  // オファー送信
-  console.log(`Offer Request Body: ${JSON.stringify(offerReqBody)}`);
-  const offerResponse = await fetch(
-    `${process.env.ISSUER_ENDPOINT}/issue-credential/send-offer`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  try {
+    // オファー準備
+    const offerReqBody = {
+      auto_remove: false,
+      auto_issue: true,
+      comment: `offering vc issue to a patient: ${checkupResult.name}`,
+      connection_id: connectionId,
+      cred_def_id: process.env.CRED_DEF_ID,
+      credential_preview: {
+        "@type":
+          "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
+        attributes: [
+          {
+            name: "patient_id",
+            value: checkupResult.patientId.toString(),
+          },
+          {
+            name: "bmi",
+            value: checkupResult.bmi.toString(),
+          },
+          {
+            name: "eyesight",
+            value: checkupResult.eyesight.toString(),
+          },
+          {
+            name: "hearing",
+            value: checkupResult.hearing.toString(),
+          },
+          {
+            name: "waist",
+            value: checkupResult.waist.toString(),
+          },
+          {
+            name: "blood_pressure",
+            value: checkupResult.bloodPressure.toString(),
+          },
+          {
+            name: "vital_capacity",
+            value: checkupResult.vitalCapacity.toString(),
+          },
+          {
+            name: "ua",
+            value: checkupResult.ua.toString(),
+          },
+          {
+            name: "tc",
+            value: checkupResult.tc.toString(),
+          },
+          {
+            name: "tg",
+            value: checkupResult.tg.toString(),
+          },
+          {
+            name: "fpg",
+            value: checkupResult.fpg.toString(),
+          },
+          {
+            name: "rbc",
+            value: checkupResult.rbc.toString(),
+          },
+          {
+            name: "wbc",
+            value: checkupResult.wbc.toString(),
+          },
+          {
+            name: "plt",
+            value: checkupResult.plt.toString(),
+          },
+        ],
       },
-      body: JSON.stringify(offerReqBody),
-    }
-  );
+      trace: true,
+    };
 
-  let offerResponseJson = null;
-  if (offerResponse.ok) {
-    offerResponseJson = await offerResponse.json();
-    console.log("offerResponse:", JSON.stringify(offerResponseJson));
-  } else {
-    const message = "Error on calling aca-py's issue_crednetial/send-offer";
-    console.error(`${message}: ${offerResponse.statusText}`);
-    throw new Error(message);
+    // オファー送信
+    console.log(`Offer Request Body: ${JSON.stringify(offerReqBody)}`);
+    const offerResponse = await fetch(
+      `${process.env.ISSUER_ENDPOINT}/issue-credential/send-offer`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(offerReqBody),
+      }
+    );
+
+    let offerResponseJson = null;
+    if (offerResponse.ok) {
+      offerResponseJson = await offerResponse.json();
+      console.log("offerResponse:", JSON.stringify(offerResponseJson));
+    } else {
+      throw new Error(`${offerResponse.statusText}`);
+    }
+  } catch (err) {
+    console.error(
+      `Error on calling aca-py's issue-credential/send-offer":
+      ${JSON.stringify(err)}`
+    );
+    return res.status(500).json({ error: err });
   }
 
   return res.status(200).json("Connection listener succeeded.");
