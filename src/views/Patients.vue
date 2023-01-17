@@ -232,6 +232,7 @@ export default {
       } catch (error) {
         this.qrSendingLoader = false;
         this.qrSendingDialog[patient.patientId] = false;
+        console.error(JSON.stringify(error));
         alert("予期しないエラーが発生しました。");
       }
     },

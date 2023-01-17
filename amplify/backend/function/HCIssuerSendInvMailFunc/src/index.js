@@ -38,7 +38,7 @@ exports.handler = async (event) => {
     const sesResp = await ses.sendEmail(sesParams).promise();
     console.log(JSON.stringify(sesResp));
   } catch (err) {
-    console.log(
+    console.error(
       `error on sending invitation email to holder: ${JSON.stringify(err)}`
     );
     throw Error(err);
@@ -61,7 +61,9 @@ exports.handler = async (event) => {
     const docResp = await docClient.update(paramsforUpdate).promise();
     console.log(`db update response: ${JSON.stringify(docResp)}`);
   } catch (err) {
-    console.log(`error on updating issue state on db: ${JSON.stringify(err)}`);
+    console.error(
+      `error on updating issue state on db: ${JSON.stringify(err)}`
+    );
     throw Error(err);
   }
 };

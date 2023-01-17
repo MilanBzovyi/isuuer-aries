@@ -102,7 +102,7 @@ app.put("/patients/*", async function (req, res) {
     checkupResult.issueState = 1;
     console.log(`issue state update resp: ${JSON.stringify(docResp)}`);
   } catch (err) {
-    console.log(`error on updaing issue state on db: ${JSON.stringify(err)}`);
+    console.error(`error on updaing issue state on db: ${JSON.stringify(err)}`);
     return res.status(500).json({ message: "server error" });
   }
 
@@ -115,7 +115,7 @@ app.put("/patients/*", async function (req, res) {
     const sqsResp = await sqs.sendMessage(sqsParams).promise();
     console.log(`sqs resp: ${JSON.stringify(sqsResp)}`);
   } catch (err) {
-    console.log(`error on sending message to sqs: ${JSON.stringify(err)}`);
+    console.error(`error on sending message to sqs: ${JSON.stringify(err)}`);
     return res.status(500).json({ message: "server error" });
   }
 

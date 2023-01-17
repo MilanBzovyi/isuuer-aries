@@ -73,7 +73,7 @@ app.post("/topic/issue_credential", async function (req, res) {
 
     await docClient.update(updateParams).promise();
   } catch (err) {
-    console.log(`db update error: ${JSON.stringify(err)}`);
+    console.error(`db update error: ${JSON.stringify(err)}`);
     return res.status(500).json({ error: err });
   }
 

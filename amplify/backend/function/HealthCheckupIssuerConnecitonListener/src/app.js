@@ -65,7 +65,7 @@ app.post("/topic/connections", async function (req, res) {
       );
     }
   } catch (err) {
-    console.log(
+    console.error(
       "error on retrieving patient data from db",
       JSON.stringify(err)
     );
