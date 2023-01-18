@@ -32,9 +32,9 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 app.post("/topic/issue_credential", async function (req, res) {
   const body = req.body;
-  const credentialExchangeId = body.credential_exchange_id;
-  const state = req.body.state;
+  const state = body.state;
   console.log(`state: ${state}`);
+  const credentialExchangeId = body.credential_exchange_id;
 
   if (state !== "credential_issued") {
     return res
