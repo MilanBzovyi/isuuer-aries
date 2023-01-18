@@ -12,12 +12,12 @@
   "lambdaLayers": [],
   "environmentVariableList": [
     {
-      "cloudFormationParameterName": "credDefId",
-      "environmentVariableName": "CRED_DEF_ID"
-    },
-    {
       "cloudFormationParameterName": "issuerEndpoint",
       "environmentVariableName": "ISSUER_ENDPOINT"
+    },
+    {
+      "cloudFormationParameterName": "credDefId",
+      "environmentVariableName": "CRED_DEF_ID"
     }
   ]
 }

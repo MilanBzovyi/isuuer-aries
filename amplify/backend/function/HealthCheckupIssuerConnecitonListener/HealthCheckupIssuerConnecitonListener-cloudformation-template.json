@@ -28,10 +28,10 @@
       "Type": "String",
       "Default": "storagepatientStreamArn"
     },
-    "credDefId": {
+    "issuerEndpoint": {
       "Type": "String"
     },
-    "issuerEndpoint": {
+    "credDefId": {
       "Type": "String"
     }
   },
@@ -97,11 +97,11 @@
             "STORAGE_PATIENT_STREAMARN": {
               "Ref": "storagepatientStreamArn"
             },
-            "CRED_DEF_ID": {
-              "Ref": "credDefId"
-            },
             "ISSUER_ENDPOINT": {
               "Ref": "issuerEndpoint"
+            },
+            "CRED_DEF_ID": {
+              "Ref": "credDefId"
             }
           }
         },

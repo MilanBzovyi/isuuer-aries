@@ -85,10 +85,6 @@ app.post("/topic/connections", async function (req, res) {
           "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
         attributes: [
           {
-            name: "patient_id",
-            value: checkupResult.patientId.toString(),
-          },
-          {
             name: "bmi",
             value: checkupResult.bmi.toString(),
           },
