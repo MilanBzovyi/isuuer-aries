@@ -1,129 +1,259 @@
 {
+  "api": {
+    "HealthCheckup": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "patientsFunc"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "HealthCheckupIssuerConnecitonListener"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "HealthCheckupIssuerCredentialListener"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "HCIssuerCreateInvFunc": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "patient"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "HCIssuerSendInvMailFunc": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "patient"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "HealthCheckupIssuerConnecitonListener": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "patient"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "HealthCheckupIssuerCredentialListener": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "patient"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "patientsFunc": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "patient"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "hosting": {
     "amplifyhosting": {
+      "lastPushTimeStamp": "2022-11-08T06:07:35.627Z",
       "service": "amplifyhosting",
-      "type": "cicd",
-      "lastPushTimeStamp": "2022-11-08T06:07:35.627Z"
+      "type": "cicd"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_HCIssuerCreateInvFunc_credDefId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerCreateInvFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HCIssuerCreateInvFunc_invForwardUrl": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerCreateInvFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HCIssuerCreateInvFunc_issuerDid": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerCreateInvFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HCIssuerCreateInvFunc_issuerEndpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerCreateInvFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HCIssuerCreateInvFunc_queueUrl": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerCreateInvFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HCIssuerCreateInvFunc_schemaId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerCreateInvFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HCIssuerSendInvMailFunc_holderEmailTestAddress": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerSendInvMailFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HCIssuerSendInvMailFunc_issuerEmailTestAddress": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerSendInvMailFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HealthCheckupIssuerConnecitonListener_credDefId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HealthCheckupIssuerConnecitonListener"
+        }
+      ]
+    },
+    "AMPLIFY_function_HealthCheckupIssuerConnecitonListener_issuerEndpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HealthCheckupIssuerConnecitonListener"
+        }
+      ]
+    },
+    "AMPLIFY_function_patientsFunc_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "patientsFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_patientsFunc_frontendOrigin": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "patientsFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_patientsFunc_queueUrl": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "patientsFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_patientsFunc_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "patientsFunc"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_appId": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_type": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
     }
   },
   "storage": {
     "patient": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
-    }
-  },
-  "function": {
-    "patientsFunc": {
-      "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "patient",
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ]
-        }
-      ]
-    },
-    "HealthCheckupIssuerConnecitonListener": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "patient",
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ]
-        }
-      ]
-    },
-    "HealthCheckupIssuerCredentialListener": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "patient",
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ]
-        }
-      ]
-    },
-    "HCIssuerCreateInvFunc": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "patient",
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ]
-        }
-      ]
-    },
-    "HCIssuerSendInvMailFunc": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "patient",
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ]
-        }
-      ]
-    }
-  },
-  "api": {
-    "HealthCheckup": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "patientsFunc",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "HealthCheckupIssuerConnecitonListener",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "HealthCheckupIssuerCredentialListener",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
+      "service": "DynamoDB"
     }
   }
 }

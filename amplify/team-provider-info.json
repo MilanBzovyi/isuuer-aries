@@ -39,7 +39,7 @@
         },
         "HealthCheckupIssuerConnecitonListener": {
           "issuerEndpoint": "http://35.77.39.134:8071",
-          "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:8:default"
+          "credDefId": "Vtw2qgmuMVy3rk2ipw7Vxt:3:CL:8:1.2"
         }
       }
     }
