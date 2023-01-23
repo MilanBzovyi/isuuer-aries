@@ -45,6 +45,9 @@
     },
     "queueUrl": {
       "Type": "String"
+    },
+    "credentialCardUrl": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -126,6 +129,9 @@
             },
             "QUEUE_URL": {
               "Ref": "queueUrl"
+            },
+            "CREDENTIAL_CARD_URL": {
+              "Ref": "credentialCardUrl"
             }
           }
         },

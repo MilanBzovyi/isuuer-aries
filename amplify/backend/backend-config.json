@@ -129,6 +129,14 @@
         }
       ]
     },
+    "AMPLIFY_function_HCIssuerCreateInvFunc_credentialCardUrl": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HCIssuerCreateInvFunc"
+        }
+      ]
+    },
     "AMPLIFY_function_HCIssuerCreateInvFunc_invForwardUrl": {
       "usedBy": [
         {

@@ -24,6 +24,10 @@
     {
       "cloudFormationParameterName": "queueUrl",
       "environmentVariableName": "QUEUE_URL"
+    },
+    {
+      "cloudFormationParameterName": "credentialCardUrl",
+      "environmentVariableName": "CREDENTIAL_CARD_URL"
     }
   ],
   "permissions": {

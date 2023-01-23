@@ -23,7 +23,7 @@ exports.handler = async (event) => {
 
   // Invitation生成のEndpoint呼び出し
   const createInvitationReqBody = {
-    my_label: "ABC病院",
+    my_label: `ABC病院 ${process.env.CREDENTIAL_CARD_URL}`,
   };
 
   const createInvitationResponse = await fetch(
