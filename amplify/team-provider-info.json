@@ -36,7 +36,7 @@
         },
         "HCIssuerSendInvMailFunc": {
           "issuerEmailTestAddress": "takahiro-kanuma@gmogshd.com",
-          "holderEmailTestAddress": "takahiro-kanuma@gmogshd.com"
+          "holderEmailTestAddress": "ringo-onishi@gmogshd.com"
         },
         "HealthCheckupIssuerConnecitonListener": {
           "issuerEndpoint": "http://35.77.39.134:8071",
