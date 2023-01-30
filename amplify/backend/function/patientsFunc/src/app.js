@@ -33,6 +33,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+// TODO Lambda Function全体に対しAWS SDKをv2からv3に変更する。
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
@@ -86,6 +87,7 @@ app.put("/patients/*", async function (req, res) {
   const checkupResult = req.body;
   console.log(`checkupResult: ${checkupResult}`);
 
+  // TODO DBにupdatedTimestampカラムを追加する。
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
     Key: {

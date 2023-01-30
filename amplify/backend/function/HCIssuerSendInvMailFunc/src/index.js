@@ -45,6 +45,7 @@ exports.handler = async (event) => {
   }
 
   // 発行状態更新
+  // TODO DBにupdatedTimestampカラムを追加する。
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
     Key: {

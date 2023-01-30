@@ -58,6 +58,7 @@ app.post("/topic/issue_credential", async function (req, res) {
     const checkupResult = await docClient.query(queryParams).promise();
     const patientId = checkupResult.Items[0].patientId;
 
+    // TODO DBにupdatedTimestampカラムを追加する。
     const updateParams = {
       TableName: process.env.STORAGE_PATIENT_NAME,
       Key: {

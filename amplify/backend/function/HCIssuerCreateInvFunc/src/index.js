@@ -53,6 +53,7 @@ exports.handler = async (event) => {
   const patientId = payload.patientId;
   const connectionId = createInvitationResponseJson.connection_id;
 
+  // TODO DBにupdatedTimestampカラムを追加する。
   const paramsforUpdate = {
     TableName: process.env.STORAGE_PATIENT_NAME,
     Key: {
